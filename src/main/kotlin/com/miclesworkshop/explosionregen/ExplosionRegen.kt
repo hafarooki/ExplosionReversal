@@ -7,10 +7,10 @@ import com.google.gson.TypeAdapter
 import com.google.gson.annotations.JsonAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
-import net.minecraft.server.v1_13_R1.BlockPosition
-import net.minecraft.server.v1_13_R1.NBTReadLimiter
-import net.minecraft.server.v1_13_R1.NBTTagCompound
-import net.minecraft.server.v1_13_R1.TileEntity
+import net.minecraft.server.v1_13_R2.BlockPosition
+import net.minecraft.server.v1_13_R2.NBTReadLimiter
+import net.minecraft.server.v1_13_R2.NBTTagCompound
+import net.minecraft.server.v1_13_R2.TileEntity
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.World
@@ -20,8 +20,7 @@ import org.bukkit.block.DoubleChest
 import org.bukkit.block.data.BlockData
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.craftbukkit.v1_13_R1.CraftWorld
-import org.bukkit.craftbukkit.v1_13_R1.block.CraftBlock
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -118,17 +117,17 @@ class ExplosionRegen : JavaPlugin(), Listener {
     fun onEntityExplode(event: EntityExplodeEvent) = onExplode(event.blockList())
 
     private fun onExplode(blocks: MutableList<Block>) {
-        blocks.map { it as CraftBlock }.forEach { block ->
-            val world = block.craftWorld
+        blocks.forEach { block ->
+            val world = block.world
             val data = block.blockData
             val x = block.x
             val y = block.y
             val z = block.z
-            val tile = world.handle.getTileEntity(BlockPosition(x, y, z))
+            val tile = world.getTileEntityData(x, y, z)
 
             val explodedBlock = ExplodedBlock(
                     x, y, z,
-                    data, tile.toBytes(),
+                    data, tile,
                     currentTimeMillis()
             )
 
@@ -151,6 +150,8 @@ class ExplosionRegen : JavaPlugin(), Listener {
 
         blocks.clear()
     }
+
+    private fun World.getTileEntityData(x: Int, y: Int, z: Int): ByteArray? = (this as CraftWorld).handle.getTileEntity(BlockPosition(x, y, z))?.toBytes()
 
     private fun TileEntity?.toBytes() = this?.let {
         val nbt = NBTTagCompound()

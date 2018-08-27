@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'com.destroystokyo.paper:paper-api:1.13-R0.1-SNAPSHOT'
-    compileOnly 'com.destroystokyo.paper:paper:1.13-R0.1-SNAPSHOT'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.13.1-R0.1-SNAPSHOT'
+    compileOnly 'com.destroystokyo.paper:paper:1.13.1-R0.1-SNAPSHOT'
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 }
 
