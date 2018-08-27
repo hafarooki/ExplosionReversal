@@ -45,6 +45,9 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# Test Server
+test/
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
