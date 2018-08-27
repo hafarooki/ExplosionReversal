@@ -18,3 +18,5 @@ dependencies {
     compileOnly 'com.destroystokyo.paper:paper:1.13-R0.1-SNAPSHOT'
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 }
+
+build.dependsOn shadowJar
