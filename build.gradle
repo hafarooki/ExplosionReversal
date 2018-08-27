@@ -21,7 +21,7 @@ dependencies {
 
 shadowJar {
     mergeServiceFiles()
-    baseName "Explosion-Regen"
+    classifier = null
 }
 
 build.dependsOn shadowJar
