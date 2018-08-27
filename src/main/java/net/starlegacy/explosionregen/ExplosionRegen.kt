@@ -41,8 +41,6 @@ import java.util.concurrent.TimeUnit
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 
-
-
 @Suppress("unused")
 class ExplosionRegen : JavaPlugin(), Listener {
     private val thread = Executors.newSingleThreadExecutor()
