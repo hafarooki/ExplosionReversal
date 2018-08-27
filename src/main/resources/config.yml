@@ -1,0 +1,6 @@
+# Time in minutes after exploding blocks should regenerate
+regenDelay: 5.0
+
+# Maximum time in milliseconds that can be spent per tick placing blocks. (50 milliseconds per tick).
+# Setting this higher will result in lag spikes
+placementIntensity: 5

@@ -1,0 +1,15 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.61"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = "https://repo.destroystokyo.com/repository/maven-public/" }
+}
+
+dependencies {
+    compileOnly 'com.destroystokyo.paper:paper-api:1.13-R0.1-SNAPSHOT'
+    compileOnly 'com.destroystokyo.paper:paper:1.13-R0.1-SNAPSHOT'
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
+}
