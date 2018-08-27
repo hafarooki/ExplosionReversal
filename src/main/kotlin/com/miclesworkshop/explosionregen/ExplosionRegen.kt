@@ -52,7 +52,7 @@ class ExplosionRegen : JavaPlugin(), Listener {
         loadAll()
         server.pluginManager.registerEvents(this, this)
         saveDefaultConfig()
-        val regenTimeMillis = (config.getDouble("regenDelay") / 60 / 1000).toLong()
+        val regenTimeMillis = (config.getDouble("regenDelay") * 60 * 1000).toLong()
         val placementLimitNanos = TimeUnit.MILLISECONDS.toNanos(config.getInt("placementIntensity").toLong())
         server.scheduler.runTaskTimer(this, {
             queues.forEach { world, queue -> processRegeneration(world, queue, placementLimitNanos, regenTimeMillis) }
