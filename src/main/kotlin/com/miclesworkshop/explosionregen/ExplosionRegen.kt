@@ -139,7 +139,7 @@ class ExplosionRegen : JavaPlugin(), Listener {
             }
         }
         blocks.forEach {
-            val state = it.getState(false)
+            val state = it.state
             if (state is DoubleChest) {
                 val inventory = state.inventory as DoubleChestInventory
                 (if ((state.rightSide as BlockState).location == it.location) inventory.rightSide else inventory.leftSide).clear()
