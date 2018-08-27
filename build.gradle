@@ -19,4 +19,9 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 }
 
+shadowJar {
+    mergeServiceFiles()
+    baseName "Explosion-Regen"
+}
+
 build.dependsOn shadowJar
