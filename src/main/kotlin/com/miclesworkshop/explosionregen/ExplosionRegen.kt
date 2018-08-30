@@ -156,13 +156,13 @@ class ExplosionRegen : JavaPlugin(), Listener {
     private fun TileEntity?.toBytes() = this?.let {
         val nbt = NBTTagCompound()
         it.save(nbt)
-        newDataOutput().apply(nbt::write).toByteArray()
+        return@let newDataOutput().apply(nbt::write).toByteArray()
     }
 
     private fun ByteArray?.toTileEntity() = this?.let { bytes ->
         val nbt = NBTTagCompound()
         newDataInput(bytes).let { nbt.load(it, 0, NBTReadLimiter.a) }
-        TileEntity.create(nbt)
+        return@let TileEntity.create(nbt)
     }
 
     private val World.explosionDataFile get() = File(worldFolder, "data/explosionregen/explodedblocks.dat")
