@@ -23,7 +23,9 @@ $ ./gradlew build
 ```
 Import the Gradle project. Using IntelliJ IDEA, create new projects from sources, navigate to the build.gradle, use the setup wizard.
 
+
 ![Image](https://www.yourkit.com/images/yklogo.png)
+ExplosionRegen uses Yourkit's fabulous profiler to enhance its performance.
 
 YourKit supports open source projects with its full-featured Java Profiler.
 YourKit, LLC is the creator of [YourKit .NET Profiler](https://www.yourkit.com/java/profiler/),
