@@ -1,6 +1,6 @@
 name: ExplosionRegen
-version: 1.1.0
-main: com.miclesworkshop.explosionregen.ExplosionRegenPlugin
+version: 2.0.0
+main: net.starlegacy.explosionregen.ExplosionRegenPlugin
 authors: ["MicleBrick"]
 api-version: 1.13
 commands:
