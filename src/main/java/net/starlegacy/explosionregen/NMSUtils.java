@@ -5,12 +5,8 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import net.minecraft.server.v1_14_R1.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_14_R1.block.data.CraftBlockData;
-import org.bukkit.craftbukkit.v1_14_R1.util.CraftMagicNumbers;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 
@@ -39,7 +35,7 @@ public class NMSUtils {
         NBTTagCompound nbt = new NBTTagCompound();
         ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
         try {
-            nbt.load(input, 0, new NBTReadLimiter(bytes.length));
+            nbt.load(input, 0, new NBTReadLimiter(bytes.length * 10));
         } catch (IOException e) {
             e.printStackTrace();
         }

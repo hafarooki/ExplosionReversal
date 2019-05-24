@@ -1,17 +1,24 @@
 package net.starlegacy.explosionregen;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Chest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 class ExplosionListener implements Listener {
@@ -40,7 +47,7 @@ class ExplosionListener implements Listener {
             return;
         }
 
-        List<ExplodedBlockData> explodedBlockDataList = new ArrayList<>();
+        List<ExplodedBlockData> explodedBlockDataList = new LinkedList<>();
 
         for (Iterator<Block> iterator = list.iterator(); iterator.hasNext(); ) {
             Block block = iterator.next();
@@ -58,8 +65,42 @@ class ExplosionListener implements Listener {
 
             String string = blockData.getAsString(true); // true for hideUnspecified, to reduce unnecessary size
 
-            explodedBlockDataList.add(new ExplodedBlockData(x, y, z, System.currentTimeMillis(), string, tileEntity));
+            long now = System.currentTimeMillis();
+            ExplodedBlockData explodedBlockData = new ExplodedBlockData(x, y, z, now, string, tileEntity);
+            explodedBlockDataList.add(explodedBlockData);
             iterator.remove();
+
+            if (tileEntity != null) {
+                BlockState state = block.getState();
+
+                if (state instanceof InventoryHolder) {
+                    Bukkit.broadcastMessage(state.getClass().getName());
+                    Inventory inventory = ((InventoryHolder) state).getInventory();
+                    // Double chests are weird so you have to get the state (as a holder)'s inventory's holder to cast to DoubleChest
+                    InventoryHolder inventoryHolder = inventory.getHolder();
+
+                    if (inventoryHolder instanceof DoubleChest) {
+                        DoubleChest doubleChest = (DoubleChest) inventoryHolder;
+                        boolean isRight = ((Chest) blockData).getType() == Chest.Type.RIGHT;
+                        Inventory otherInventory = (isRight ? doubleChest.getLeftSide() : doubleChest.getRightSide()).getInventory();
+                        Block other = otherInventory.getLocation().getBlock();
+                        int otherX = other.getX();
+                        int otherY = other.getY();
+                        int otherZ = other.getZ();
+                        String otherString = other.getBlockData().getAsString(true);
+                        byte[] otherTile = NMSUtils.getTileEntity(other);
+                        explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, now, otherString, otherTile));
+
+                        otherInventory.clear();
+                        other.setType(Material.AIR, false);
+                    }
+
+                    inventory.clear();
+                }
+            }
+
+            block.setType(Material.AIR, false);
+
         }
 
         // if no blocks were handled by the plugin at all (for example, every block's type is ignored)
