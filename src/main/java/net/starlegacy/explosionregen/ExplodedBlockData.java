@@ -1,5 +1,7 @@
 package net.starlegacy.explosionregen;
 
+import org.bukkit.block.data.BlockData;
+
 import javax.annotation.Nullable;
 
 public class ExplodedBlockData {
@@ -7,16 +9,16 @@ public class ExplodedBlockData {
     private int y;
     private int z;
     private long explodedTime;
-    private String blockDataString;
+    private BlockData blockData;
     @Nullable
     private byte[] tileData;
 
-    public ExplodedBlockData(int x, int y, int z, long explodedTime, String blockDataString, @Nullable byte[] tileData) {
+    public ExplodedBlockData(int x, int y, int z, long explodedTime, BlockData blockData, @Nullable byte[] tileData) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.explodedTime = explodedTime;
-        this.blockDataString = blockDataString;
+        this.blockData = blockData;
         this.tileData = tileData;
     }
 
@@ -36,8 +38,8 @@ public class ExplodedBlockData {
         return explodedTime;
     }
 
-    public String getBlockDataString() {
-        return blockDataString;
+    public BlockData getBlockData() {
+        return blockData;
     }
 
     @Nullable

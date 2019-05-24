@@ -5,6 +5,9 @@ regen_delay: 5.0
 # Setting this higher will result in lag spikes
 placement_intensity: 5
 
+# Every x minutes should all data will be saved
+save_interval: 3.0
+
 # Blocks blown up by these entities will not be affected by this plugin
 # For a complete list of entity types, see https://papermc.io/javadocs/org/bukkit/entity/EntityType.html
 ignored_entities:

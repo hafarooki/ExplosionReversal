@@ -62,10 +62,8 @@ class ExplosionListener implements Listener {
             int y = block.getY();
             int z = block.getZ();
 
-            String string = blockData.getAsString(true); // true for hideUnspecified, to reduce unnecessary size
-
             long now = System.currentTimeMillis();
-            ExplodedBlockData explodedBlockData = new ExplodedBlockData(x, y, z, now, string, tileEntity);
+            ExplodedBlockData explodedBlockData = new ExplodedBlockData(x, y, z, now, blockData, tileEntity);
             explodedBlockDataList.add(explodedBlockData);
             iterator.remove();
 
@@ -87,9 +85,9 @@ class ExplosionListener implements Listener {
                             int otherX = other.getX();
                             int otherY = other.getY();
                             int otherZ = other.getZ();
-                            String otherString = other.getBlockData().getAsString(true);
+                            BlockData otherBlockData = other.getBlockData();
                             byte[] otherTile = NMSUtils.getTileEntity(other);
-                            explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, now, otherString, otherTile));
+                            explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, now, otherBlockData, otherTile));
 
                             otherInventory.clear();
                             other.setType(Material.AIR, false);

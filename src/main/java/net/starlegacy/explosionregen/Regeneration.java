@@ -13,37 +13,42 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Regeneration {
-    private static LoadingCache<String, BlockData> blockDataCache = CacheBuilder.newBuilder().build(CacheLoader.from(Bukkit::createBlockData));
 
-    public static void regenerate(ExplosionRegenPlugin plugin) {
+    public static int regenerate(ExplosionRegenPlugin plugin, boolean instant) {
         long millisecondDelay = (long) (plugin.getSettings().getRegenDelay() * 60L * 1_000L);
         long maxNanos = (long) (plugin.getSettings().getPlacementIntensity() * 1_000_000L);
 
         long start = System.nanoTime();
 
+        int regenerated = 0;
+
         for (World world : Bukkit.getWorlds()) {
             List<ExplodedBlockData> blocks = plugin.getWorldData().get(world);
 
             for (Iterator<ExplodedBlockData> iterator = blocks.iterator(); iterator.hasNext(); ) {
-                if (System.nanoTime() - start > maxNanos) {
-                    return;
+                if (!instant && System.nanoTime() - start > maxNanos) {
+                    return regenerated;
                 }
 
                 ExplodedBlockData data = iterator.next();
-                if (System.currentTimeMillis() - data.getExplodedTime() < millisecondDelay) {
+                if (!instant && System.currentTimeMillis() - data.getExplodedTime() < millisecondDelay) {
                     continue;
                 }
 
                 iterator.remove();
                 Block block = world.getBlockAt(data.getX(), data.getY(), data.getZ());
-                BlockData blockData = blockDataCache.getUnchecked(data.getBlockDataString());
+                BlockData blockData = data.getBlockData();
                 block.setBlockData(blockData, false);
 
                 @Nullable byte[] tileData = data.getTileData();
                 if (tileData != null) {
                     NMSUtils.setTileEntity(block, tileData);
                 }
+
+                regenerated++;
             }
         }
+
+        return regenerated;
     }
 }
