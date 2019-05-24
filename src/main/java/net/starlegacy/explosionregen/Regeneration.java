@@ -37,7 +37,7 @@ public class Regeneration {
                 iterator.remove();
                 Block block = world.getBlockAt(data.getX(), data.getY(), data.getZ());
                 BlockData blockData = blockDataCache.getUnchecked(data.getBlockDataString());
-                block.setBlockData(blockData);
+                block.setBlockData(blockData, false);
 
                 @Nullable byte[] tileData = data.getTileData();
                 if (tileData != null) {
