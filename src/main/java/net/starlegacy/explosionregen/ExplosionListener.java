@@ -74,7 +74,6 @@ class ExplosionListener implements Listener {
                 BlockState state = block.getState();
 
                 if (state instanceof InventoryHolder) {
-                    Bukkit.broadcastMessage(state.getClass().getName());
                     Inventory inventory = ((InventoryHolder) state).getInventory();
                     // Double chests are weird so you have to get the state (as a holder)'s inventory's holder to cast to DoubleChest
                     InventoryHolder inventoryHolder = inventory.getHolder();
