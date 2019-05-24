@@ -68,7 +68,8 @@ class ExplosionListener implements Listener {
             iterator.remove();
 
             if (tileEntity != null) {
-                BlockState state = block.getState();
+
+    BlockState state = block.getState();
 
                 if (state instanceof InventoryHolder) {
                     Inventory inventory = ((InventoryHolder) state).getInventory();

@@ -22,10 +22,6 @@ class Settings {
      */
     private double placementIntensity;
     /**
-     * Interval save time in minutes
-     */
-    private double saveInterval;
-    /**
      * Entities to ignore the explosions of
      */
     private Set<EntityType> ignoredEntities;
@@ -45,7 +41,6 @@ class Settings {
                 .map(this::parseMaterial)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
-        saveInterval = config.getDouble("save_interval");
     }
 
     void save(FileConfiguration config) {
@@ -86,10 +81,6 @@ class Settings {
 
     public double getPlacementIntensity() {
         return placementIntensity;
-    }
-
-    public double getSaveInterval() {
-        return saveInterval;
     }
 
     public Set<EntityType> getIgnoredEntities() {
