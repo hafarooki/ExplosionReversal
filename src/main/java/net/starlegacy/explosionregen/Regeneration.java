@@ -16,7 +16,7 @@ public class Regeneration {
     private static LoadingCache<String, BlockData> blockDataCache = CacheBuilder.newBuilder().build(CacheLoader.from(Bukkit::createBlockData));
 
     public static void regenerate(ExplosionRegenPlugin plugin) {
-        long millisecondDelay = (long) (plugin.getSettings().getRegenDelay() * 1_000L);
+        long millisecondDelay = (long) (plugin.getSettings().getRegenDelay() * 60L * 1_000L);
         long maxNanos = (long) (plugin.getSettings().getPlacementIntensity() * 1_000_000L);
 
         long start = System.nanoTime();
