@@ -1,6 +1,5 @@
 package net.starlegacy.explosionregen;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -81,17 +80,20 @@ class ExplosionListener implements Listener {
                     if (inventoryHolder instanceof DoubleChest) {
                         DoubleChest doubleChest = (DoubleChest) inventoryHolder;
                         boolean isRight = ((Chest) blockData).getType() == Chest.Type.RIGHT;
-                        Inventory otherInventory = (isRight ? doubleChest.getLeftSide() : doubleChest.getRightSide()).getInventory();
-                        Block other = otherInventory.getLocation().getBlock();
-                        int otherX = other.getX();
-                        int otherY = other.getY();
-                        int otherZ = other.getZ();
-                        String otherString = other.getBlockData().getAsString(true);
-                        byte[] otherTile = NMSUtils.getTileEntity(other);
-                        explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, now, otherString, otherTile));
+                        InventoryHolder otherHolder = isRight ? doubleChest.getLeftSide() : doubleChest.getRightSide();
+                        if (otherHolder != null) {
+                            Inventory otherInventory = otherHolder.getInventory();
+                            Block other = otherInventory.getLocation().getBlock();
+                            int otherX = other.getX();
+                            int otherY = other.getY();
+                            int otherZ = other.getZ();
+                            String otherString = other.getBlockData().getAsString(true);
+                            byte[] otherTile = NMSUtils.getTileEntity(other);
+                            explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, now, otherString, otherTile));
 
-                        otherInventory.clear();
-                        other.setType(Material.AIR, false);
+                            otherInventory.clear();
+                            other.setType(Material.AIR, false);
+                        }
                     }
 
                     inventory.clear();
