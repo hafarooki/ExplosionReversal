@@ -11,6 +11,7 @@ public class ExplosionRegenPlugin extends JavaPlugin {
         loadConfigAndUpdateDefaults();
         worldData = new WorldData();
         getServer().getPluginManager().registerEvents(new ExplosionListener(this), this);
+        getServer().getScheduler().runTaskTimer(this, () -> Regeneration.regenerate(this), 5L, 5L);
     }
 
     private void loadConfigAndUpdateDefaults() {

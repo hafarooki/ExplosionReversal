@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,12 +50,15 @@ class ExplosionListener implements Listener {
                 continue;
             }
 
-            // TODO: get tile entity data
+            @Nullable byte[] tileEntity = NMSUtils.getTileEntity(block);
 
             int x = block.getX();
             int y = block.getY();
             int z = block.getZ();
-            explodedBlockDataList.add(new ExplodedBlockData(x, y, z, blockData, null));
+
+            String string = blockData.getAsString(true); // true for hideUnspecified, to reduce unnecessary size
+
+            explodedBlockDataList.add(new ExplodedBlockData(x, y, z, System.currentTimeMillis(), string, tileEntity));
             iterator.remove();
         }
 

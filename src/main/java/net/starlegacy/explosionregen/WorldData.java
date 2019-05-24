@@ -3,31 +3,21 @@ package net.starlegacy.explosionregen;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.google.common.io.Files;
 import org.bukkit.World;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 public class WorldData {
-    private Logger log = LoggerFactory.getLogger(getClass());
-
     private LoadingCache<World, List<ExplodedBlockData>> explodedBlocks = CacheBuilder.newBuilder()
             .weakKeys()
             .build(CacheLoader.from(this::load));
 
-    private Type dataType = TypeToken.getParameterized(ArrayList.class, ExplodedBlockData.class).getType();
-
     private File getFile(World world) {
-        return new File(world.getWorldFolder(), "data/explosionregen/explodedblocks.json.gz");
+        return new File(world.getWorldFolder(), "data/explosionregen/explodedblocks.dat");
     }
 
     public List<ExplodedBlockData> get(World world) {
@@ -37,15 +27,54 @@ public class WorldData {
     private List<ExplodedBlockData> load(World world) {
         File file = getFile(world);
 
-        if (file.exists()) {
-            try (Reader reader = new InputStreamReader(new GZIPInputStream(new FileInputStream(file)))) {
-                return new Gson().fromJson(reader, dataType);
-            } catch (IOException e) {
-                log.error("Failed to load data for " + world.getName(), e);
-                return new ArrayList<>();
+        if (!file.exists()) {
+            return new LinkedList<>();
+        }
+
+        boolean errorOccured = false;
+
+        try (DataInputStream input = new DataInputStream(new FileInputStream(file))) {
+            List<ExplodedBlockData> blocks = new LinkedList<>();
+
+            int blockCount = input.readInt();
+            for (int i = 0; i < blockCount; i++) {
+                try {
+                    int x = input.readInt();
+                    int y = input.readInt();
+                    int z = input.readInt();
+
+                    long explodedTime = input.readLong();
+
+                    byte[] blockDataBytes = new byte[input.readInt()];
+                    input.read(blockDataBytes);
+                    String blockDataString = new String(blockDataBytes);
+
+                    byte[] tileEntityData = null;
+
+                    if (input.readBoolean()) {
+                        int tileEntitySize = input.readInt();
+                        tileEntityData = new byte[tileEntitySize];
+                        input.read(tileEntityData);
+                    }
+
+                    blocks.add(new ExplodedBlockData(x, y, z, explodedTime, blockDataString, tileEntityData));
+                } catch (Exception exception) {
+                    // if something goes wrong with a block, skip it but print the error,
+                    // and flag that we need to save a backup copy of this file,
+                    // in case data recovery is necessary later
+                    exception.printStackTrace();
+                    errorOccured = true;
+                }
             }
-        } else {
-            return new ArrayList<>();
+
+            return blocks;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (errorOccured) {
+                file.renameTo(new File(file.getAbsolutePath() + "_broken_" + System.currentTimeMillis() % 1000));
+                save(world);
+            }
         }
     }
 
@@ -55,10 +84,34 @@ public class WorldData {
         File file = getFile(world);
         file.getParentFile().mkdirs();
 
-        try (Writer writer = new OutputStreamWriter(new GZIPOutputStream(new FileOutputStream(file)))) {
-            new Gson().toJson(data, dataType, writer);
+        File tmpFile = new File(file.getAbsolutePath() + "_tmp");
+
+        try (DataOutputStream output = new DataOutputStream(new FileOutputStream(tmpFile))) {
+            for (ExplodedBlockData block : data) {
+                output.writeInt(block.getX());
+                output.writeInt(block.getY());
+                output.writeInt(block.getZ());
+
+                output.writeLong(block.getExplodedTime());
+
+                String blockDataString = block.getBlockDataString();
+                output.writeInt(blockDataString.length());
+                output.writeBytes(blockDataString);
+
+                byte[] tileData = block.getTileData();
+                if (tileData == null) {
+                    output.writeBoolean(false);
+                } else {
+                    output.writeBoolean(true);
+                    output.writeInt(tileData.length);
+                    output.write(tileData);
+                }
+            }
+
+            Files.move(tmpFile, file);
         } catch (IOException e) {
-            log.error("Failed to save data for " + world.getName(), e);
+            e.printStackTrace();
+            tmpFile.delete();
         }
     }
 

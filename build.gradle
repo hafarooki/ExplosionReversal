@@ -1,7 +1,7 @@
 apply plugin: "java"
 apply plugin: "maven"
 
-version = "2.0.0"
+version = "3.0.0"
 
 repositories {
     mavenCentral()
@@ -10,6 +10,6 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.destroystokyo.paper:paper-api:1.13.2-R0.1-SNAPSHOT"
-    compileOnly "com.destroystokyo.paper:paper:1.13.2-R0.1-SNAPSHOT"
+    compileOnly "com.destroystokyo.paper:paper-api:1.14.1-R0.1-SNAPSHOT"
+    compileOnly "com.destroystokyo.paper:paper:1.14.1-R0.1-SNAPSHOT"
 }
