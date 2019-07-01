@@ -4,7 +4,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.io.Files;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
@@ -84,7 +83,7 @@ public class WorldData {
             return blocks;
         } finally {
             if (errorOccured) {
-                file.renameTo(new File(file.getAbsolutePath() + "_broken_" + System.currentTimeMillis() % 1000));
+                file.renameTo(new File(file.getParent(), file.getName() + "_broken_" + System.currentTimeMillis() % 1000));
                 save(world);
             }
         }
@@ -95,13 +94,13 @@ public class WorldData {
         File file = getFile(world);
         file.getParentFile().mkdirs();
 
-        File tmpFile = new File(file.getAbsolutePath() + "_tmp");
+        File tmpFile = new File(file.getParent(), file.getName() + "_tmp");
 
         try (DataOutputStream output = new DataOutputStream(new FileOutputStream(tmpFile))) {
             List<ExplodedBlockData> data = get(world);
 
             List<BlockData> palette = data.stream().map(ExplodedBlockData::getBlockData).distinct().collect(Collectors.toList());
-            Map<BlockData, Integer> values = new Object2IntOpenHashMap<>(palette.size());
+            Map<BlockData, Integer> values = new HashMap<>(palette.size());
 
             output.writeInt(palette.size());
 

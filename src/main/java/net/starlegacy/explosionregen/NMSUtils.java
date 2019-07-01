@@ -3,9 +3,9 @@ package net.starlegacy.explosionregen;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.minecraft.server.v1_14_R1.*;
+import net.minecraft.server.v1_13_R2.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 
 import javax.annotation.Nullable;
 import java.io.IOException;

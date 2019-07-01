@@ -3,15 +3,14 @@ package net.starlegacy.explosionregen;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 class Settings {
-    private static Logger log = LoggerFactory.getLogger(Settings.class);
+    private static Logger log = Logger.getLogger(Settings.class.getName());
 
     /**
      * Time in minutes after explosion blocks should regenerate
@@ -54,7 +53,7 @@ class Settings {
         try {
             return EntityType.valueOf(string.toUpperCase());
         } catch (Exception exception) {
-            log.error("Failed to parse entity type " + string + "! Make sure it is a valid entity type. " +
+            log.severe("Failed to parse entity type " + string + "! Make sure it is a valid entity type. " +
                     "Valid entity types can be viewed at https://papermc.io/javadocs/org/bukkit/entity/EntityType.html");
             return null;
         }
@@ -64,12 +63,12 @@ class Settings {
         try {
             Material material = Material.valueOf(string);
             if (!material.isBlock()) {
-                log.error(material + " is not a block!");
+                log.severe(material + " is not a block!");
                 return null;
             }
             return material;
         } catch (Exception exception) {
-            log.error("Failed to parse material " + string + "! Make sure it is a valid material. " +
+            log.severe("Failed to parse material " + string + "! Make sure it is a valid material. " +
                     "Valid materials can be viewed at https://papermc.io/javadocs/org/bukkit/Material.html");
             return null;
         }
