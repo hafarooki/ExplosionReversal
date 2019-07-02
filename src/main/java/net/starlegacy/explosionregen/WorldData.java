@@ -8,6 +8,9 @@ import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 
 import java.io.*;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -132,7 +135,7 @@ public class WorldData {
                 }
             }
 
-            tmpFile.renameTo(file);
+            Files.move(tmpFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
             tmpFile.delete();
