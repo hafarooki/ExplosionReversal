@@ -3,7 +3,6 @@ package net.starlegacy.explosionregen;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.io.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
@@ -83,7 +82,7 @@ public class WorldData {
             return blocks;
         } finally {
             if (errorOccured) {
-                file.renameTo(new File(file.getParent(), file.getName() + "_broken_" + System.currentTimeMillis() % 1000));
+                file.renameTo(new File(file.getParentFile(), file.getName() + "_broken_" + System.currentTimeMillis() % 1000));
                 save(world);
             }
         }
@@ -94,7 +93,7 @@ public class WorldData {
         File file = getFile(world);
         file.getParentFile().mkdirs();
 
-        File tmpFile = new File(file.getParent(), file.getName() + "_tmp");
+        File tmpFile = new File(file.getParentFile(), file.getName() + "_tmp");
 
         try (DataOutputStream output = new DataOutputStream(new FileOutputStream(tmpFile))) {
             List<ExplodedBlockData> data = get(world);
@@ -133,7 +132,7 @@ public class WorldData {
                 }
             }
 
-            Files.move(tmpFile, file);
+            tmpFile.renameTo(file);
         } catch (IOException e) {
             e.printStackTrace();
             tmpFile.delete();
