@@ -41,7 +41,7 @@ public class NMSUtils {
         }
         BlockPosition blockPosition = new BlockPosition(block.getX(), block.getY(), block.getZ());
         WorldServer worldServer = ((CraftWorld) block.getWorld()).getHandle();
-        TileEntity tileEntity = TileEntity.create(nbt, worldServer);
+        TileEntity tileEntity = TileEntity.create(nbt);
         worldServer.setTileEntity(blockPosition, tileEntity);
     }
 }
