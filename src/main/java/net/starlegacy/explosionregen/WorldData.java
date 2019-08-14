@@ -8,7 +8,6 @@ import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 
 import java.io.*;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
@@ -133,9 +132,10 @@ public class WorldData {
                     output.write(tileData);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             tmpFile.delete();
+            return;
         }
 
         try {
