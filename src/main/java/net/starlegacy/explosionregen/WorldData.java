@@ -92,7 +92,6 @@ public class WorldData {
     }
 
     public void save(World world) {
-
         File file = getFile(world);
         file.getParentFile().mkdirs();
 
@@ -134,11 +133,15 @@ public class WorldData {
                     output.write(tileData);
                 }
             }
-
-            Files.move(tmpFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
             tmpFile.delete();
+        }
+
+        try {
+            Files.move(tmpFile.toPath(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
