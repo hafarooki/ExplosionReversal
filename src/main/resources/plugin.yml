@@ -1,5 +1,5 @@
 name: ExplosionRegen
-version: 2.3.1
+version: 2.4.0
 main: net.starlegacy.explosionregen.ExplosionRegenPlugin
 authors: ["MicleBrick"]
 api-version: 1.14

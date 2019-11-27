@@ -28,6 +28,10 @@ class Settings {
      * Types of blocks to not regenerate
      */
     private Set<Material> ignoredMaterials;
+    /**
+     * Types of blocks to regenerate. When empty, include all blocks
+     */
+    private Set<Material> includedMaterials;
 
     Settings(FileConfiguration config) {
         regenDelay = config.getDouble("regen_delay", 5.0);
@@ -40,6 +44,10 @@ class Settings {
                 .map(this::parseMaterial)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
+        includedMaterials = config.getStringList("included_materials").stream()
+                .map(this::parseMaterial)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
     }
 
     void save(FileConfiguration config) {
@@ -47,6 +55,7 @@ class Settings {
         config.set("placement_intensity", placementIntensity);
         config.set("ignored_entities", ignoredEntities.stream().map(Enum::name).collect(Collectors.toList()));
         config.set("ignored_materials", ignoredMaterials.stream().map(Enum::name).collect(Collectors.toList()));
+        config.set("included_materials", includedMaterials.stream().map(Enum::name).collect(Collectors.toList()));
     }
 
     private EntityType parseEntityType(String string) {
@@ -88,5 +97,9 @@ class Settings {
 
     public Set<Material> getIgnoredMaterials() {
         return ignoredMaterials;
+    }
+
+    public Set<Material> getIncludedMaterials() {
+        return includedMaterials;
     }
 }
