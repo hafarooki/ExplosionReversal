@@ -55,7 +55,7 @@ class Settings {
         config.set("placement_intensity", placementIntensity);
         config.set("ignored_entities", ignoredEntities.stream().map(Enum::name).collect(Collectors.toList()));
         config.set("ignored_materials", ignoredMaterials.stream().map(Enum::name).collect(Collectors.toList()));
-        config.set("included_materials", ignoredMaterials.stream().map(Enum::name).collect(Collectors.toList()));
+        config.set("included_materials", includedMaterials.stream().map(Enum::name).collect(Collectors.toList()));
     }
 
     private EntityType parseEntityType(String string) {
