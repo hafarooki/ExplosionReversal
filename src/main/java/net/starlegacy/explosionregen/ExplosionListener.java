@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 class ExplosionListener implements Listener {
     private ExplosionRegenPlugin plugin;
@@ -48,11 +49,18 @@ class ExplosionListener implements Listener {
 
         List<ExplodedBlockData> explodedBlockDataList = new LinkedList<>();
 
+        Settings settings = plugin.getSettings();
+        Set<Material> includedMaterials = settings.getIncludedMaterials();
         for (Iterator<Block> iterator = list.iterator(); iterator.hasNext(); ) {
             Block block = iterator.next();
             BlockData blockData = block.getBlockData();
+            Material material = blockData.getMaterial();
 
-            if (plugin.getSettings().getIgnoredMaterials().contains(blockData.getMaterial())) {
+            if (settings.getIgnoredMaterials().contains(material)) {
+                continue;
+            }
+
+            if (!includedMaterials.isEmpty() && !includedMaterials.contains(material)) {
                 continue;
             }
 
