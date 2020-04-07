@@ -17,6 +17,10 @@ class Settings {
      */
     private double regenDelay;
     /**
+     * Time in seconds of additional delay for each block away (taxicab distance)
+     */
+    private double distanceDelay;
+    /**
      * Maximum time in milliseconds that should be spent per tick regenerating exploded blocks
      */
     private double placementIntensity;
@@ -35,6 +39,7 @@ class Settings {
 
     Settings(FileConfiguration config) {
         regenDelay = config.getDouble("regen_delay", 5.0);
+        distanceDelay = config.getDouble("distance_delay", 2.5);
         placementIntensity = config.getDouble("placement_intensity", 5.0);
         ignoredEntities = config.getStringList("ignored_entities").stream()
                 .map(this::parseEntityType)
@@ -52,6 +57,7 @@ class Settings {
 
     void save(FileConfiguration config) {
         config.set("regen_delay", regenDelay);
+        config.set("regen_delay", distanceDelay);
         config.set("placement_intensity", placementIntensity);
         config.set("ignored_entities", ignoredEntities.stream().map(Enum::name).collect(Collectors.toList()));
         config.set("ignored_materials", ignoredMaterials.stream().map(Enum::name).collect(Collectors.toList()));
@@ -85,6 +91,10 @@ class Settings {
 
     public double getRegenDelay() {
         return regenDelay;
+    }
+
+    public double getDistanceDelay() {
+        return distanceDelay;
     }
 
     public double getPlacementIntensity() {
