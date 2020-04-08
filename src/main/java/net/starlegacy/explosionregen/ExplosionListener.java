@@ -2,6 +2,7 @@ package net.starlegacy.explosionregen;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.DoubleChest;
@@ -20,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.lang.Math;
 
 class ExplosionListener implements Listener {
     private ExplosionRegenPlugin plugin;
@@ -34,20 +36,24 @@ class ExplosionListener implements Listener {
             return;
         }
 
-        processBlockList(event.getEntity().getWorld(), event.blockList());
+        processBlockList(event.getEntity().getWorld(), event.getLocation(), event.blockList());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     void onBlockExplode(BlockExplodeEvent event) {
-        processBlockList(event.getBlock().getWorld(), event.blockList());
+        processBlockList(event.getBlock().getWorld(), event.getBlock().getLocation(), event.blockList());
     }
 
-    private void processBlockList(World world, List<Block> list) {
+    private void processBlockList(World world, Location explosionLocation, List<Block> list) {
         if (list.isEmpty()) {
             return;
         }
 
         List<ExplodedBlockData> explodedBlockDataList = new LinkedList<>();
+
+        double eX = explosionLocation.getX();
+        double eY = explosionLocation.getY();
+        double eZ = explosionLocation.getZ();
 
         Settings settings = plugin.getSettings();
         Set<Material> includedMaterials = settings.getIncludedMaterials();
@@ -70,8 +76,11 @@ class ExplosionListener implements Listener {
             int y = block.getY();
             int z = block.getZ();
 
+            double distance = Math.abs(eX - x) + Math.abs(eY - y) + Math.abs(eZ - z);
+
             long now = System.currentTimeMillis();
-            ExplodedBlockData explodedBlockData = new ExplodedBlockData(x, y, z, now, blockData, tileEntity);
+            long offset = Math.round((16 - distance) * plugin.getSettings().getDistanceDelay() * 1000);
+            ExplodedBlockData explodedBlockData = new ExplodedBlockData(x, y, z, now + offset, blockData, tileEntity);
             explodedBlockDataList.add(explodedBlockData);
             iterator.remove();
 
