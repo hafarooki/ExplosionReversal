@@ -33,7 +33,7 @@ public class WorldData {
             return new LinkedList<>();
         }
 
-        boolean errorOccured = false;
+        boolean errorOccurred = false;
 
         List<ExplodedBlockData> blocks = new LinkedList<>();
 
@@ -73,17 +73,17 @@ public class WorldData {
                     // in case data recovery is necessary later
                     // do this so that we avoid losing other blocks if only some blocks are corrupt
                     exception.printStackTrace();
-                    errorOccured = true;
+                    errorOccurred = true;
                 }
             }
 
             return blocks;
         } catch (Exception e) {
-            errorOccured = true;
+            errorOccurred = true;
             e.printStackTrace();
             return blocks;
         } finally {
-            if (errorOccured) {
+            if (errorOccurred) {
                 file.renameTo(new File(file.getParentFile(), file.getName() + "_broken_" + System.currentTimeMillis() % 1000));
                 save(world);
             }
