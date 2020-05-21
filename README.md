@@ -1,7 +1,7 @@
 # ExplosionRegen
 A lightweight plugin for Minecraft servers which makes blocks destroyed by explosions regenerate.
 
-This plugin is for [Paper](https;//papermc.io) 1.14.
+This plugin is for [Paper](https;//papermc.io) 1.15.2.
 To install it, download the latest release and put it in your plugins folder, then restart your server.
 Use the config.yml file to edit the settings.
 
@@ -11,7 +11,7 @@ The only command is "/regen" to regenerate all pending blocks, requires the expl
 # Contributing
 Fork the project.
 Run these commands (use git bash if you're on Windows) (Requires Maven to be properly installed)
-```Bash
+```Shell
 $ cd ~/Documents
 $ git clone https://github.com/PaperMC/Paper
 $ cd Paper
