@@ -59,6 +59,8 @@ public class ExplosionRegenPlugin extends JavaPlugin implements Listener {
 
     private void loadConfigAndUpdateDefaults() {
         saveDefaultConfig();
+        getConfig().options().header("More details & explanation: https://github.com/MicleBrick/ExplosionRegen/blob/master/src/main/resources/config.yml");
+        saveConfig();
         settings = new Settings(getConfig());
     }
 
