@@ -60,10 +60,6 @@ public class ExplosionRegenPlugin extends JavaPlugin implements Listener {
     private void loadConfigAndUpdateDefaults() {
         saveDefaultConfig();
         settings = new Settings(getConfig());
-        saveResource("config.yml", true);
-        reloadConfig();
-        settings.save(getConfig());
-        saveConfig();
     }
 
     Settings getSettings() {
