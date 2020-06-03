@@ -92,7 +92,9 @@ class ExplosionListener implements Listener {
     private boolean ignoreMaterial(Material material) {
         Settings settings = plugin.getSettings();
         Set<Material> includedMaterials = settings.getIncludedMaterials();
-        return settings.getIgnoredMaterials().contains(material) || !includedMaterials.isEmpty() && !includedMaterials.contains(material);
+        return material == Material.AIR ||
+                settings.getIgnoredMaterials().contains(material) ||
+                !includedMaterials.isEmpty() && !includedMaterials.contains(material);
     }
 
     private long getExplodedTime(double eX, double eY, double eZ, int x, int y, int z) {
