@@ -1,6 +1,8 @@
 # ExplosionRegen
 A lightweight plugin for Minecraft servers which makes blocks destroyed by explosions regenerate.
 
+Download: [Spigot Page](https://www.spigotmc.org/resources/explosionregen.60308/edit)
+
 This plugin is for [Paper](https;//papermc.io) 1.15.2.
 To install it, download the latest release and put it in your plugins folder, then restart your server.
 Use the config.yml file to edit the settings.
