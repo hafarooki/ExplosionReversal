@@ -1,7 +1,7 @@
 # Updated config: https://github.com/MicleBrick/ExplosionRegen/blob/master/src/main/resources/config.yml
 
 # Time in minutes after exploding blocks should regenerate
-regen_delay: 5.0
+regen_delay: 1.0
 
 # Maximum time in milliseconds that can be spent per tick placing blocks. (50 milliseconds per tick).
 # Setting this higher will result in lag spikes
