@@ -1,5 +1,10 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionregen.listener;
 
+import net.starlegacy.explosionregen.data.ExplodedBlockData;
+import net.starlegacy.explosionregen.ExplosionRegenPlugin;
+import net.starlegacy.explosionregen.NMSUtils;
+import net.starlegacy.explosionregen.Settings;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.Location;
@@ -7,7 +12,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.Chest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -18,12 +22,11 @@ import org.bukkit.inventory.InventoryHolder;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.lang.Math;
 
-class ExplosionListener implements Listener {
+public class ExplosionListener implements Listener {
     private ExplosionRegenPlugin plugin;
 
-    ExplosionListener(ExplosionRegenPlugin plugin) {
+    public ExplosionListener(ExplosionRegenPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -72,12 +75,12 @@ class ExplosionListener implements Listener {
         }
 
         int x = block.getX(), y = block.getY(), z = block.getZ();
-        long explodedTime = getExplodedTime(eX, eY, eZ, x, y, z);
+        long explodedTime = plugin.getExplodedTime(eX, eY, eZ, x, y, z);
 
         @Nullable byte[] tileEntity = NMSUtils.getTileEntity(block);
 
         if (tileEntity != null) {
-            processTileEntity(explodedBlockDataList, block, blockData, explodedTime);
+            processTileEntity(explodedBlockDataList, block, explodedTime);
         }
 
 
@@ -97,15 +100,7 @@ class ExplosionListener implements Listener {
                 !includedMaterials.isEmpty() && !includedMaterials.contains(material);
     }
 
-    private long getExplodedTime(double eX, double eY, double eZ, int x, int y, int z) {
-        long now = System.currentTimeMillis();
-        double distance = Math.abs(eX - x) + Math.abs(eY - y) + Math.abs(eZ - z);
-        long offset = Math.round((16 - distance) * plugin.getSettings().getDistanceDelay() * 1000);
-        return now + offset;
-    }
-
-    private void processTileEntity(List<ExplodedBlockData> explodedBlockDataList,
-                                   Block block, BlockData blockData, long explodedTime) {
+    private void processTileEntity(List<ExplodedBlockData> explodedBlockDataList, Block block, long explodedTime) {
         BlockState state = block.getState();
 
         if (state instanceof InventoryHolder) {
@@ -114,16 +109,18 @@ class ExplosionListener implements Listener {
             InventoryHolder inventoryHolder = inventory.getHolder();
 
             if (inventoryHolder instanceof DoubleChest) {
-                processDoubleChest(explodedBlockDataList, (Chest) blockData, (DoubleChest) inventoryHolder, explodedTime);
+                DoubleChest doubleChest = (DoubleChest) inventoryHolder;
+                boolean isRight = inventoryHolder == doubleChest.getRightSide();
+                Bukkit.broadcastMessage("isRight: " + isRight);
+                processDoubleChest(explodedBlockDataList, isRight, doubleChest, explodedTime);
             }
 
             inventory.clear();
         }
     }
 
-    private void processDoubleChest(List<ExplodedBlockData> explodedBlockDataList, Chest blockData,
+    private void processDoubleChest(List<ExplodedBlockData> explodedBlockDataList, boolean isRight,
                                     DoubleChest doubleChest, long explodedTime) {
-        boolean isRight = blockData.getType() == Chest.Type.RIGHT;
         InventoryHolder otherHolder = isRight ? doubleChest.getLeftSide() : doubleChest.getRightSide();
         if (otherHolder != null) {
             Inventory otherInventory = otherHolder.getInventory();

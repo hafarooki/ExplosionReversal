@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-class Settings {
+public class Settings {
     private static Logger log = Logger.getLogger(Settings.class.getName());
 
     /**
@@ -28,6 +28,10 @@ class Settings {
      * Entities to ignore the explosions of
      */
     private Set<EntityType> ignoredEntities;
+    /**
+     * Additional types of entities to regenerate.
+     */
+    private Set<EntityType> includedEntities;
     /**
      * Types of blocks to not regenerate
      */
@@ -51,6 +55,10 @@ class Settings {
                 .collect(Collectors.toSet());
         includedMaterials = config.getStringList("included_materials").stream()
                 .map(this::parseMaterial)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+        includedEntities = config.getStringList("included_entities").stream()
+                .map(this::parseEntityType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
@@ -103,6 +111,10 @@ class Settings {
 
     public Set<EntityType> getIgnoredEntities() {
         return ignoredEntities;
+    }
+
+    public Set<EntityType> getIncludedEntities() {
+        return includedEntities;
     }
 
     public Set<Material> getIgnoredMaterials() {

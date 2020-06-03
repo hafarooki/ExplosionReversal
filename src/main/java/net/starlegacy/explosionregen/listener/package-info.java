@@ -1,0 +1,4 @@
+@ParametersAreNonnullByDefault
+package net.starlegacy.explosionregen.listener;
+
+import javax.annotation.ParametersAreNonnullByDefault;

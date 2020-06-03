@@ -1,4 +1,4 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionregen.data;
 
 import org.bukkit.block.data.BlockData;
 
