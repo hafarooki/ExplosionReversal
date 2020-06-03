@@ -85,7 +85,6 @@ public class ExplosionListener implements Listener {
             processTileEntity(explodedBlockDataList, block, explodedTime);
         }
 
-
         ExplodedBlockData explodedBlockData = new ExplodedBlockData(x, y, z, explodedTime, blockData, tileEntity);
         explodedBlockDataList.add(explodedBlockData);
 
