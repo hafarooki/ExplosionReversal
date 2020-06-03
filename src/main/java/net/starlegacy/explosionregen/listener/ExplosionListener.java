@@ -12,11 +12,13 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Chest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.inventory.DoubleChestInventory;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -109,9 +111,8 @@ public class ExplosionListener implements Listener {
             InventoryHolder inventoryHolder = inventory.getHolder();
 
             if (inventoryHolder instanceof DoubleChest) {
+                boolean isRight = ((Chest) block.getBlockData()).getType() == Chest.Type.RIGHT;
                 DoubleChest doubleChest = (DoubleChest) inventoryHolder;
-                boolean isRight = inventoryHolder == doubleChest.getRightSide();
-                Bukkit.broadcastMessage("isRight: " + isRight);
                 processDoubleChest(explodedBlockDataList, isRight, doubleChest, explodedTime);
             }
 
@@ -121,20 +122,18 @@ public class ExplosionListener implements Listener {
 
     private void processDoubleChest(List<ExplodedBlockData> explodedBlockDataList, boolean isRight,
                                     DoubleChest doubleChest, long explodedTime) {
-        InventoryHolder otherHolder = isRight ? doubleChest.getLeftSide() : doubleChest.getRightSide();
-        if (otherHolder != null) {
-            Inventory otherInventory = otherHolder.getInventory();
-            Location otherInventoryLocation = Objects.requireNonNull(otherInventory.getLocation());
-            Block other = otherInventoryLocation.getBlock();
+        DoubleChestInventory inventory = (DoubleChestInventory) doubleChest.getInventory();
+        Inventory otherInventory = isRight ? inventory.getRightSide() : inventory.getLeftSide();
+        Location otherInventoryLocation = Objects.requireNonNull(otherInventory.getLocation());
+        Block other = otherInventoryLocation.getBlock();
 
-            int otherX = other.getX(), otherY = other.getY(), otherZ = other.getZ();
-            BlockData otherBlockData = other.getBlockData();
-            byte[] otherTile = NMSUtils.getTileEntity(other);
+        int otherX = other.getX(), otherY = other.getY(), otherZ = other.getZ();
+        BlockData otherBlockData = other.getBlockData();
+        byte[] otherTile = NMSUtils.getTileEntity(other);
 
-            explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, explodedTime, otherBlockData, otherTile));
+        explodedBlockDataList.add(new ExplodedBlockData(otherX, otherY, otherZ, explodedTime, otherBlockData, otherTile));
 
-            otherInventory.clear();
-            other.setType(Material.AIR, false);
-        }
+        otherInventory.clear();
+        other.setType(Material.AIR, false);
     }
 }
