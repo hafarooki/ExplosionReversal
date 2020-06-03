@@ -8,7 +8,7 @@ public class ExplodedBlockData {
     private int x;
     private int y;
     private int z;
-    private long explodedTime;
+    private long explodedTime; // the time to start the regenerate timer, NOT necessarily the time that it exploded
     private BlockData blockData;
     @Nullable
     private byte[] tileData;
