@@ -27,11 +27,11 @@ public class ExplosionRegenPlugin extends JavaPlugin implements Listener {
         server.getPluginManager().registerEvents(new ExplosionListener(this), this);
 
         BukkitScheduler scheduler = server.getScheduler();
-        scheduler.runTaskTimer(this, () -> Regeneration.regenerate(this, false), 5L, 5L);
+        scheduler.runTaskTimer(this, () -> Regeneration.regenerateBlock(this, false), 5L, 5L);
 
         getCommand("regen").setExecutor((sender, command, label, args) -> {
             long start = System.nanoTime();
-            int regenerated = Regeneration.regenerate(this, true);
+            int regenerated = Regeneration.regenerateBlock(this, true);
             long elapsed = System.nanoTime() - start;
 
             String seconds = new BigDecimal(elapsed / 1_000_000_000.0)
