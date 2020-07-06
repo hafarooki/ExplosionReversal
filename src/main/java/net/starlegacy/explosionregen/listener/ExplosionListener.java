@@ -34,7 +34,7 @@ public class ExplosionListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     void onEntityExplode(EntityExplodeEvent event) {
-        if (plugin.getSettings().getIgnoredEntities().contains(event.getEntityType())) {
+        if (plugin.getSettings().getIgnoredEntityExplosions().contains(event.getEntity().getType())) {
             return;
         }
 

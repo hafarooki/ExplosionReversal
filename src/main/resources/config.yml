@@ -8,10 +8,13 @@ regen_delay: 1.0
 placement_intensity: 5
 
 # Blocks blown up by these entities will not be affected by this plugin
-# Also keeps entities of these types from being regenerated if they are blown up
+ignored_entity_explosions:
+# - PRIMED_TNT
+
+# Entities of these types will not be regenerated
 # For a complete list of entity types, see https://papermc.io/javadocs/paper/1.14/org/bukkit/entity/EntityType.html
 ignored_entities:
-# - PRIMED_TNT
+# - ARMOR_STAND
 
 # Additional entities to regenerate when blown up
 included_entities:

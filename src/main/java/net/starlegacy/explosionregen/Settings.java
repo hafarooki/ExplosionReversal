@@ -10,55 +10,62 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Settings {
-    private static Logger log = Logger.getLogger(Settings.class.getName());
+    private static final Logger log = Logger.getLogger(Settings.class.getName());
 
     /**
      * Time in minutes after explosion blocks should regenerate
      */
-    private double regenDelay;
+    private final double regenDelay;
     /**
      * Time in seconds of additional delay for each block away (taxicab distance)
      */
-    private double distanceDelay;
+    private final double distanceDelay;
     /**
      * Maximum time in milliseconds that should be spent per tick regenerating exploded blocks
      */
-    private double placementIntensity;
+    private final double placementIntensity;
     /**
      * Entities to ignore the explosions of
      */
-    private Set<EntityType> ignoredEntities;
+    private final Set<EntityType> ignoredEntityExplosions;
+    /**
+     * Entities to not regenerate
+     */
+    private final Set<EntityType> ignoredEntities;
     /**
      * Additional types of entities to regenerate.
      */
-    private Set<EntityType> includedEntities;
+    private final Set<EntityType> includedEntities;
     /**
      * Types of blocks to not regenerate
      */
-    private Set<Material> ignoredMaterials;
+    private final Set<Material> ignoredMaterials;
     /**
      * Types of blocks to regenerate. When empty, include all blocks
      */
-    private Set<Material> includedMaterials;
+    private final Set<Material> includedMaterials;
 
     Settings(FileConfiguration config) {
         regenDelay = config.getDouble("regen_delay", 5.0);
         distanceDelay = config.getDouble("distance_delay", 2.5);
         placementIntensity = config.getDouble("placement_intensity", 5.0);
-        ignoredEntities = config.getStringList("ignored_entities").stream()
+        ignoredEntityExplosions = getEntityTypes(config, "ignored_entity_explosions");
+        ignoredEntities = getEntityTypes(config, "ignored_entities");
+        ignoredMaterials = getMaterials(config, "ignored_materials");
+        includedMaterials = getMaterials(config, "included_materials");
+        includedEntities = getEntityTypes(config, "included_entities");
+    }
+
+    private Set<EntityType> getEntityTypes(FileConfiguration config, String path) {
+        return config.getStringList(path).stream()
                 .map(this::parseEntityType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
-        ignoredMaterials = config.getStringList("ignored_materials").stream()
+    }
+
+    private Set<Material> getMaterials(FileConfiguration config, String path) {
+        return config.getStringList(path).stream()
                 .map(this::parseMaterial)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-        includedMaterials = config.getStringList("included_materials").stream()
-                .map(this::parseMaterial)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-        includedEntities = config.getStringList("included_entities").stream()
-                .map(this::parseEntityType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
@@ -67,6 +74,7 @@ public class Settings {
         config.set("regen_delay", regenDelay);
         config.set("regen_delay", distanceDelay);
         config.set("placement_intensity", placementIntensity);
+        config.set("ignored_entity_explosions", ignoredEntityExplosions.stream().map(Enum::name).collect(Collectors.toList()));
         config.set("ignored_entities", ignoredEntities.stream().map(Enum::name).collect(Collectors.toList()));
         config.set("ignored_materials", ignoredMaterials.stream().map(Enum::name).collect(Collectors.toList()));
         config.set("included_materials", includedMaterials.stream().map(Enum::name).collect(Collectors.toList()));
@@ -107,6 +115,10 @@ public class Settings {
 
     public double getPlacementIntensity() {
         return placementIntensity;
+    }
+
+    public Set<EntityType> getIgnoredEntityExplosions() {
+        return ignoredEntityExplosions;
     }
 
     public Set<EntityType> getIgnoredEntities() {
