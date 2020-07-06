@@ -14,6 +14,16 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class NMSUtils {
+    private static boolean nmsEnabled = true;
+
+    static {
+        try {
+            Class.forName("org.bukkit.craftbukkit.v1_15_R1.WorldServer");
+        } catch (Exception e) {
+            nmsEnabled = false;
+        }
+    }
+
     @SuppressWarnings("UnstableApiUsage")
     private static byte[] serialize(NBTTagCompound nbt) throws IOException {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
@@ -31,6 +41,10 @@ public class NMSUtils {
     // separate method for graceful failure on version incompatibility
     @Nullable
     public static byte[] getTileEntity(Block block) {
+        if (!nmsEnabled) {
+            return null;
+        }
+
         try {
             return completeGetTileEntity(block);
         } catch (Exception e) {
@@ -56,6 +70,10 @@ public class NMSUtils {
     }
 
     public static void setTileEntity(Block block, byte[] bytes) {
+        if (!nmsEnabled) {
+            return;
+        }
+
         try {
             completeSetTileEntity(block, bytes);
         } catch (Exception e) {
