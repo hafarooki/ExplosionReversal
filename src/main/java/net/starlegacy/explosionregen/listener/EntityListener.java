@@ -24,7 +24,7 @@ public class EntityListener implements Listener {
         this.plugin = plugin;
     }
 
-    private HashMap<UUID, ExplodedEntityData> pendingDeathEntities = new HashMap<>();
+    private final HashMap<UUID, ExplodedEntityData> pendingDeathEntities = new HashMap<>();
 
     // put the data in beforehand because some entities such as armor stands lose items before the death event but
     // after this event
