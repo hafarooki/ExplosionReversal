@@ -12,21 +12,22 @@ ignored_entity_explosions:
 # - PRIMED_TNT
 
 # Entities of these types will not be regenerated
-# For a complete list of entity types, see https://papermc.io/javadocs/paper/1.14/org/bukkit/entity/EntityType.html
+# For a complete list of entity types, see https://papermc.io/javadocs/paper/1.16/org/bukkit/entity/EntityType.html
 ignored_entities:
 # - ARMOR_STAND
 
 # Additional entities to regenerate when blown up
+# For a complete list of entity types, see https://papermc.io/javadocs/paper/1.16/org/bukkit/entity/EntityType.html
 included_entities:
 # - SHEEP
 
 # Blocks with these materials which are blown up will be ignored
-# For a complete list of materials, see https://papermc.io/javadocs/paper/1.14/org/bukkit/Material.html
+# For a complete list of materials, see https://papermc.io/javadocs/paper/1.16/org/bukkit/Material.html
 ignored_materials:
 # - TNT
 
 # Only blocks with these materials which are blown up will be regenerated.
 # When this list is empty, all blocks will be.
-# For a complete list of materials, see https://papermc.io/javadocs/paper/1.14/org/bukkit/Material.html
+# For a complete list of materials, see https://papermc.io/javadocs/paper/1.16/org/bukkit/Material.html
 included_materials:
 # - GRASS
