@@ -88,14 +88,16 @@ public class NMSUtils {
 
         NBTTagCompound nbt = deserialize(bytes);
 
-        TileEntity tileEntity = Objects.requireNonNull(TileEntity.create(nbt));
+        IBlockData blockData = worldServer.getType(blockPosition);
+
+        TileEntity tileEntity = Objects.requireNonNull(TileEntity.create(blockData, nbt));
         tileEntity.setPosition(blockPosition);
 
         worldServer.removeTileEntity(blockPosition);
         worldServer.setTileEntity(blockPosition, tileEntity);
     }
 
-    private static net.minecraft.server.v1_15_R1.Entity getNMSEntity(Entity entity) {
+    private static net.minecraft.server.v1_16_R1.Entity getNMSEntity(Entity entity) {
         CraftEntity craftEntity = (CraftEntity) entity;
         return craftEntity.getHandle();
     }
@@ -111,7 +113,7 @@ public class NMSUtils {
     }
 
     private static byte[] completeGetEntityData(Entity entity) throws IOException {
-        net.minecraft.server.v1_15_R1.Entity nmsEntity = getNMSEntity(entity);
+        net.minecraft.server.v1_16_R1.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = nmsEntity.save(new NBTTagCompound());
         return serialize(nbt);
     }
@@ -125,8 +127,8 @@ public class NMSUtils {
     }
 
     private static void completeRestoreEntityData(Entity entity, byte[] entityData) throws IOException {
-        net.minecraft.server.v1_15_R1.Entity nmsEntity = getNMSEntity(entity);
+        net.minecraft.server.v1_16_R1.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = deserialize(entityData);
-        nmsEntity.f(nbt);
+        nmsEntity.load(nbt);
     }
 }
