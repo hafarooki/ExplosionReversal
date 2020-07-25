@@ -3,14 +3,13 @@ package net.starlegacy.explosionregen.listener;
 import net.starlegacy.explosionregen.ExplosionRegenPlugin;
 import net.starlegacy.explosionregen.data.ExplodedEntityData;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Hanging;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 
 import javax.annotation.Nullable;
@@ -38,11 +37,25 @@ public class EntityListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
+    public void onItemDeath(ItemDespawnEvent event) {
+        Item entity = event.getEntity();
+        if (!isRegeneratedEntity(entity) || !isCausedByExplosion(entity.getLastDamageCause())) {
+            return;
+        }
+        onEntityExplode(entity);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDeath(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
         if (!isRegeneratedEntity(entity) || !isCausedByExplosion(entity.getLastDamageCause())) {
             return;
         }
+        onEntityExplode(entity);
+        event.getDrops().clear();
+    }
+
+    private void onEntityExplode(Entity entity) {
         UUID id = entity.getUniqueId();
         ExplodedEntityData explodedEntityData;
         if (pendingDeathEntities.containsKey(id)) {
@@ -52,16 +65,16 @@ public class EntityListener implements Listener {
         }
         World world = entity.getWorld();
         plugin.getWorldData().addEntity(world, explodedEntityData);
-        event.getDrops().clear();
     }
 
     private boolean isRegeneratedEntity(Entity entity) {
-        if (plugin.getSettings().getIgnoredEntities().contains(entity.getType())) {
+        EntityType type = entity.getType();
+        if (plugin.getSettings().getIgnoredEntities().contains(type)) {
             return false;
-        } else if (plugin.getSettings().getIncludedEntities().contains(entity.getType())) {
+        } else if (plugin.getSettings().getIncludedEntities().contains(type)) {
             return true;
         } else {
-            switch (entity.getType()) {
+            switch (type) {
                 case ARMOR_STAND:
                 case DROPPED_ITEM:
                 case PAINTING:

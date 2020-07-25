@@ -17,11 +17,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class WorldData {
-    private LoadingCache<World, List<ExplodedBlockData>> explodedBlocks = CacheBuilder.newBuilder()
+    private final LoadingCache<World, List<ExplodedBlockData>> explodedBlocks = CacheBuilder.newBuilder()
             .weakKeys()
             .build(CacheLoader.from(this::loadBlocks));
 
-    private LoadingCache<World, List<ExplodedEntityData>> explodedEntities = CacheBuilder.newBuilder()
+    private final LoadingCache<World, List<ExplodedEntityData>> explodedEntities = CacheBuilder.newBuilder()
             .weakKeys()
             .build(CacheLoader.from(this::loadEntities));
 
