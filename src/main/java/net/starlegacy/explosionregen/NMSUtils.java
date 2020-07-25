@@ -3,10 +3,10 @@ package net.starlegacy.explosionregen;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.minecraft.server.v1_16_R1.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftEntity;
+import net.minecraft.server.v1_16_R1.*;
+import org.bukkit.craftbukkit.v1_16_R1.*;
+import org.bukkit.craftbukkit.v1_16_R1.entity.*;
 import org.bukkit.entity.Entity;
 
 import javax.annotation.Nullable;
@@ -18,9 +18,10 @@ public class NMSUtils {
 
     static {
         try {
-            Class.forName("org.bukkit.craftbukkit.v1_16_R1.WorldServer");
+            Class.forName("net.minecraft.server.v1_16_R1.WorldServer");
         } catch (Exception e) {
             nmsEnabled = false;
+            e.printStackTrace();
         }
     }
 

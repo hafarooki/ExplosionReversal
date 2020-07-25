@@ -11,7 +11,11 @@ placement_intensity: 5
 ignored_entity_explosions:
 # - PRIMED_TNT
 
-# Entities of these types will not be regenerated
+# Entities of these types will not be regenerated, even though they are normally
+# These include:
+# - ARMOR_STAND
+# - DROPPED_ITEM
+# - PAINTING
 # For a complete list of entity types, see https://papermc.io/javadocs/paper/1.16/org/bukkit/entity/EntityType.html
 ignored_entities:
 # - ARMOR_STAND

@@ -63,6 +63,7 @@ public class EntityListener implements Listener {
         } else {
             switch (entity.getType()) {
                 case ARMOR_STAND:
+                case DROPPED_ITEM:
                 case PAINTING:
                     return true;
                 default:
