@@ -3,6 +3,9 @@
 # Time in minutes after exploding blocks should regenerate
 regen_delay: 1.0
 
+# Time in seconds to add for every block of taxicab distance from the center of the explosion
+distance_delay: 2.5
+
 # Maximum time in milliseconds that can be spent per tick placing blocks. (50 milliseconds per tick).
 # Setting this higher will result in lag spikes
 placement_intensity: 5
