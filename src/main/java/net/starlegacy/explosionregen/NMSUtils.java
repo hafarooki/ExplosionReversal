@@ -3,11 +3,13 @@ package net.starlegacy.explosionregen;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import net.minecraft.server.v1_16_R1.*;
 import org.bukkit.craftbukkit.v1_16_R1.*;
 import org.bukkit.craftbukkit.v1_16_R1.entity.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Painting;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -36,7 +38,8 @@ public class NMSUtils {
     @SuppressWarnings("UnstableApiUsage")
     private static NBTTagCompound deserialize(byte[] bytes) throws IOException {
         ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
-        return NBTCompressedStreamTools.a(input, new NBTReadLimiter(bytes.length * 10));
+        NBTReadLimiter readLimiter = new NBTReadLimiter(bytes.length * 10);
+        return NBTCompressedStreamTools.a(input, readLimiter);
     }
 
     // separate method for graceful failure on version incompatibility
@@ -105,6 +108,10 @@ public class NMSUtils {
 
     @Nullable
     public static byte[] getEntityData(Entity entity) {
+        if (!nmsEnabled) {
+            return null;
+        }
+
         try {
             return completeGetEntityData(entity);
         } catch (Exception exception) {
@@ -120,6 +127,10 @@ public class NMSUtils {
     }
 
     public static void restoreEntityData(Entity entity, byte[] entityData) {
+        if (!nmsEnabled) {
+            return;
+        }
+
         try {
             completeRestoreEntityData(entity, entityData);
         } catch (Exception exception) {

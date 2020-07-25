@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Painting;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -75,8 +76,8 @@ public class Regeneration {
                 if (!instant && System.currentTimeMillis() - data.getExplodedTime() < millisecondDelay) {
                     continue;
                 }
-                iterator.remove();
                 regenerateEntity(world, data);
+                iterator.remove();
                 regenerated++;
             }
         }
@@ -94,7 +95,13 @@ public class Regeneration {
         }
 
         if (entity instanceof LivingEntity) {
-            ((LivingEntity) entity).setHealth(((LivingEntity) entity).getHealth());
+            LivingEntity livingEntity = (LivingEntity) entity;
+            livingEntity.setHealth(livingEntity.getHealth());
+        }
+
+        if (entity instanceof Painting) {
+            Painting painting = (Painting) entity;
+            painting.setArt(painting.getArt(), true);
         }
     }
 }

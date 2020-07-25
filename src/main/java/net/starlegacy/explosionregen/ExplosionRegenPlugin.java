@@ -93,7 +93,8 @@ public class ExplosionRegenPlugin extends JavaPlugin implements Listener {
                                 int blockX, int blockY, int blockZ) {
         long now = System.currentTimeMillis();
         double distance = Math.abs(explosionX - blockX) + Math.abs(explosionY - blockY) + Math.abs(explosionZ - blockZ);
-        long offset = Math.round((16 - distance) * getSettings().getDistanceDelay() * 1000);
+        double distanceDelayMs = getSettings().getDistanceDelay() * 1000;
+        long offset = Math.round(Math.min(0, distance - 16) * distanceDelayMs);
         return now - offset; // subtract instead of add so it never happens after regenerating entities
     }
 }
