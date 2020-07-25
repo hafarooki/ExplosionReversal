@@ -4,11 +4,11 @@
 regen_delay: 1.0
 
 # Time in seconds of additional delay for each block away (taxicab distance)
-distance_delay: 2.5
+distance_delay: 2.0
 
 # Maximum distance from center of explosion to keep adding time for
 # Also used for things the distance of which can't be calculated, such as entities
-distance_delay_cap: 8
+distance_delay_cap: 6
 
 # Maximum time in milliseconds that can be spent per tick placing blocks. (50 milliseconds per tick).
 # Setting this higher will result in lag spikes

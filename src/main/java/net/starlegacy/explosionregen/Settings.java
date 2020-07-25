@@ -51,8 +51,8 @@ public class Settings {
 
     Settings(FileConfiguration config) {
         regenDelay = config.getDouble("regen_delay", 5.0);
-        distanceDelay = config.getDouble("distance_delay", 2.5);
-        distanceDelayCap = config.getInt("distance_delay_cap", 8);
+        distanceDelay = config.getDouble("distance_delay", 2.0);
+        distanceDelayCap = config.getInt("distance_delay_cap", 6);
         placementIntensity = config.getDouble("placement_intensity", 5.0);
         ignoredEntityExplosions = getEntityTypes(config, "ignored_entity_explosions");
         ignoredEntities = getEntityTypes(config, "ignored_entities");
