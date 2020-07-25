@@ -31,9 +31,16 @@ public class EntityListener implements Listener {
     public void onEntityDemise(EntityDamageEvent event) {
         Entity entity = event.getEntity();
         if (isRegeneratedEntity(entity) && isCausedByExplosion(event)) {
-            ExplodedEntityData explodedEntityData = new ExplodedEntityData(entity);
+            ExplodedEntityData explodedEntityData = getExplodedEntityData(entity);
             pendingDeathEntities.put(entity.getUniqueId(), explodedEntityData);
         }
+    }
+
+    private ExplodedEntityData getExplodedEntityData(Entity entity) {
+        double cap = plugin.getSettings().getDistanceDelayCap();
+        double delay = plugin.getSettings().getDistanceDelay();
+        long time = System.currentTimeMillis() + Math.round(cap * delay * 1000L);
+        return new ExplodedEntityData(entity, time);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -61,7 +68,7 @@ public class EntityListener implements Listener {
         if (pendingDeathEntities.containsKey(id)) {
             explodedEntityData = pendingDeathEntities.remove(id);
         } else {
-            explodedEntityData = new ExplodedEntityData(entity);
+            explodedEntityData = getExplodedEntityData(entity);
         }
         World world = entity.getWorld();
         plugin.getWorldData().addEntity(world, explodedEntityData);
@@ -113,7 +120,7 @@ public class EntityListener implements Listener {
         event.setCancelled(true);
 
         World world = entity.getWorld();
-        ExplodedEntityData explodedEntityData = new ExplodedEntityData(entity);
+        ExplodedEntityData explodedEntityData = getExplodedEntityData(entity);
         plugin.getWorldData().addEntity(world, explodedEntityData);
 
         entity.remove();

@@ -21,6 +21,10 @@ public class Settings {
      */
     private final double distanceDelay;
     /**
+     * Maximum distance to consider
+     */
+    private final int distanceDelayCap;
+    /**
      * Maximum time in milliseconds that should be spent per tick regenerating exploded blocks
      */
     private final double placementIntensity;
@@ -48,6 +52,7 @@ public class Settings {
     Settings(FileConfiguration config) {
         regenDelay = config.getDouble("regen_delay", 5.0);
         distanceDelay = config.getDouble("distance_delay", 2.5);
+        distanceDelayCap = config.getInt("distance_delay_cap", 8);
         placementIntensity = config.getDouble("placement_intensity", 5.0);
         ignoredEntityExplosions = getEntityTypes(config, "ignored_entity_explosions");
         ignoredEntities = getEntityTypes(config, "ignored_entities");
@@ -111,6 +116,10 @@ public class Settings {
 
     public double getDistanceDelay() {
         return distanceDelay;
+    }
+
+    public double getDistanceDelayCap() {
+        return distanceDelayCap;
     }
 
     public double getPlacementIntensity() {

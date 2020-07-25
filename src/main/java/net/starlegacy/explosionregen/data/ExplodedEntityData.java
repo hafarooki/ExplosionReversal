@@ -26,10 +26,10 @@ public class ExplodedEntityData {
         this.nmsData = nmsData;
     }
 
-    public ExplodedEntityData(Entity entity) {
+    public ExplodedEntityData(Entity entity, long explosionTime) {
         this(entity.getType(), entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(),
                 entity.getLocation().getPitch(), entity.getLocation().getYaw(),
-                System.currentTimeMillis(), NMSUtils.getEntityData(entity));
+                explosionTime, NMSUtils.getEntityData(entity));
     }
 
     public EntityType getEntityType() {
