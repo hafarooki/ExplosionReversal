@@ -76,7 +76,7 @@ public class Regeneration {
                 if (!instant && System.currentTimeMillis() - data.getExplodedTime() < millisecondDelay) {
                     continue;
                 }
-                regenerateEntity(world, data);
+                regenerateEntity(plugin, world, data);
                 iterator.remove();
                 regenerated++;
             }
@@ -85,9 +85,22 @@ public class Regeneration {
         return regenerated;
     }
 
-    private static void regenerateEntity(World world, ExplodedEntityData data) {
+    private static void regenerateEntity(ExplosionRegenPlugin plugin, World world, ExplodedEntityData data) {
         Location location = new Location(world, data.getX(), data.getY(), data.getZ(), data.getPitch(), data.getYaw());
-        Entity entity = world.spawnEntity(location, data.getEntityType());
+
+        Entity entity;
+
+        try {
+            entity = world.spawnEntity(location, data.getEntityType());
+        } catch (IllegalArgumentException exception) {
+            if (!exception.getMessage().contains("Cannot spawn hanging entity")) {
+                throw exception;
+            }
+
+            plugin.getLogger().severe("Failed to regenerate " + data.getEntityType()
+                    + " at " + data.getX() + ", " + data.getY() + ", " + data.getZ());
+            return;
+        }
 
         @Nullable byte[] nmsData = data.getNmsData();
         if (nmsData != null) {

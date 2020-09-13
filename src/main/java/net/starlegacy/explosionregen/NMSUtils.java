@@ -5,9 +5,9 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import net.minecraft.server.v1_16_R1.*;
-import org.bukkit.craftbukkit.v1_16_R1.*;
-import org.bukkit.craftbukkit.v1_16_R1.entity.*;
+import net.minecraft.server.v1_16_R2.*;
+import org.bukkit.craftbukkit.v1_16_R2.*;
+import org.bukkit.craftbukkit.v1_16_R2.entity.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Painting;
 
@@ -101,7 +101,7 @@ public class NMSUtils {
         worldServer.setTileEntity(blockPosition, tileEntity);
     }
 
-    private static net.minecraft.server.v1_16_R1.Entity getNMSEntity(Entity entity) {
+    private static net.minecraft.server.v1_16_R2.Entity getNMSEntity(Entity entity) {
         CraftEntity craftEntity = (CraftEntity) entity;
         return craftEntity.getHandle();
     }
@@ -121,7 +121,7 @@ public class NMSUtils {
     }
 
     private static byte[] completeGetEntityData(Entity entity) throws IOException {
-        net.minecraft.server.v1_16_R1.Entity nmsEntity = getNMSEntity(entity);
+        net.minecraft.server.v1_16_R2.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = nmsEntity.save(new NBTTagCompound());
         return serialize(nbt);
     }
@@ -139,7 +139,7 @@ public class NMSUtils {
     }
 
     private static void completeRestoreEntityData(Entity entity, byte[] entityData) throws IOException {
-        net.minecraft.server.v1_16_R1.Entity nmsEntity = getNMSEntity(entity);
+        net.minecraft.server.v1_16_R2.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = deserialize(entityData);
         nmsEntity.load(nbt);
     }
