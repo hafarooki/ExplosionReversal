@@ -3,13 +3,11 @@ package net.starlegacy.explosionregen;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import net.minecraft.server.v1_16_R2.*;
-import org.bukkit.craftbukkit.v1_16_R2.*;
-import org.bukkit.craftbukkit.v1_16_R2.entity.*;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Painting;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
