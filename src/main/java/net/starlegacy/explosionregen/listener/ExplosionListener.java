@@ -1,13 +1,12 @@
 package net.starlegacy.explosionregen.listener;
 
-import net.starlegacy.explosionregen.data.ExplodedBlockData;
 import net.starlegacy.explosionregen.ExplosionRegenPlugin;
-import net.starlegacy.explosionregen.NMSUtils;
 import net.starlegacy.explosionregen.Settings;
-import org.bukkit.Bukkit;
+import net.starlegacy.explosionregen.data.ExplodedBlockData;
+import net.starlegacy.explosionregen.nms.NMSUtils;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.DoubleChest;
@@ -26,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class ExplosionListener implements Listener {
-    private ExplosionRegenPlugin plugin;
+    private final ExplosionRegenPlugin plugin;
 
     public ExplosionListener(ExplosionRegenPlugin plugin) {
         this.plugin = plugin;

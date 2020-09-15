@@ -2,6 +2,8 @@ package net.starlegacy.explosionregen;
 
 import net.starlegacy.explosionregen.data.ExplodedBlockData;
 import net.starlegacy.explosionregen.data.ExplodedEntityData;
+import net.starlegacy.explosionregen.nms.NMSUtils;
+import net.starlegacy.explosionregen.nms.NMS_v1_16_R2;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

@@ -1,18 +1,21 @@
 package net.starlegacy.explosionregen.data;
 
-import net.starlegacy.explosionregen.NMSUtils;
+import net.starlegacy.explosionregen.nms.NMSUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import javax.annotation.Nullable;
 
 public class ExplodedEntityData {
-    private EntityType entityType;
-    private double x, y, z;
-    private float pitch, yaw;
-    private long explodedTime;
+    private final EntityType entityType;
+    private final double x;
+    private final double y;
+    private final double z;
+    private final float pitch;
+    private final float yaw;
+    private final long explodedTime;
     @Nullable
-    private byte[] nmsData;
+    private final byte[] nmsData;
 
     public ExplodedEntityData(EntityType entityType, double x, double y, double z, float pitch, float yaw,
                               long explodedTime, @Nullable byte[] nmsData) {

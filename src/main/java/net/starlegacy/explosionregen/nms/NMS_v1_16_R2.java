@@ -1,4 +1,4 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionregen.nms;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -13,20 +13,9 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Objects;
 
-public class NMSUtils {
-    private static boolean nmsEnabled = true;
-
-    static {
-        try {
-            Class.forName("net.minecraft.server.v1_16_R1.WorldServer");
-        } catch (Exception e) {
-            nmsEnabled = false;
-            e.printStackTrace();
-        }
-    }
-
+public class NMS_v1_16_R2 implements NMS {
     @SuppressWarnings("UnstableApiUsage")
-    private static byte[] serialize(NBTTagCompound nbt) throws IOException {
+    private byte[] serialize(NBTTagCompound nbt) throws IOException {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
         NBTCompressedStreamTools.a(nbt, output);
 
@@ -34,7 +23,7 @@ public class NMSUtils {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    private static NBTTagCompound deserialize(byte[] bytes) throws IOException {
+    private NBTTagCompound deserialize(byte[] bytes) throws IOException {
         ByteArrayDataInput input = ByteStreams.newDataInput(bytes);
         NBTReadLimiter readLimiter = new NBTReadLimiter(bytes.length * 10);
         return NBTCompressedStreamTools.a(input, readLimiter);
@@ -42,11 +31,7 @@ public class NMSUtils {
 
     // separate method for graceful failure on version incompatibility
     @Nullable
-    public static byte[] getTileEntity(Block block) {
-        if (!nmsEnabled) {
-            return null;
-        }
-
+    public byte[] getTileEntity(Block block) {
         try {
             return completeGetTileEntity(block);
         } catch (Exception e) {
@@ -56,7 +41,7 @@ public class NMSUtils {
     }
 
 
-    private static byte[] completeGetTileEntity(Block block) throws Exception {
+    private byte[] completeGetTileEntity(Block block) throws Exception {
         WorldServer worldServer = ((CraftWorld) block.getWorld()).getHandle();
 
         BlockPosition blockPosition = new BlockPosition(block.getX(), block.getY(), block.getZ());
@@ -71,11 +56,7 @@ public class NMSUtils {
         return serialize(nbt);
     }
 
-    public static void setTileEntity(Block block, byte[] bytes) {
-        if (!nmsEnabled) {
-            return;
-        }
-
+    public void setTileEntity(Block block, byte[] bytes) {
         try {
             completeSetTileEntity(block, bytes);
         } catch (Exception e) {
@@ -83,7 +64,7 @@ public class NMSUtils {
         }
     }
 
-    private static void completeSetTileEntity(Block block, byte[] bytes) throws IOException {
+    private void completeSetTileEntity(Block block, byte[] bytes) throws IOException {
         WorldServer worldServer = ((CraftWorld) block.getWorld()).getHandle();
 
         BlockPosition blockPosition = new BlockPosition(block.getX(), block.getY(), block.getZ());
@@ -99,17 +80,13 @@ public class NMSUtils {
         worldServer.setTileEntity(blockPosition, tileEntity);
     }
 
-    private static net.minecraft.server.v1_16_R2.Entity getNMSEntity(Entity entity) {
+    private net.minecraft.server.v1_16_R2.Entity getNMSEntity(Entity entity) {
         CraftEntity craftEntity = (CraftEntity) entity;
         return craftEntity.getHandle();
     }
 
     @Nullable
-    public static byte[] getEntityData(Entity entity) {
-        if (!nmsEnabled) {
-            return null;
-        }
-
+    public byte[] getEntityData(Entity entity) {
         try {
             return completeGetEntityData(entity);
         } catch (Exception exception) {
@@ -118,17 +95,13 @@ public class NMSUtils {
         }
     }
 
-    private static byte[] completeGetEntityData(Entity entity) throws IOException {
+    private byte[] completeGetEntityData(Entity entity) throws IOException {
         net.minecraft.server.v1_16_R2.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = nmsEntity.save(new NBTTagCompound());
         return serialize(nbt);
     }
 
-    public static void restoreEntityData(Entity entity, byte[] entityData) {
-        if (!nmsEnabled) {
-            return;
-        }
-
+    public void restoreEntityData(Entity entity, byte[] entityData) {
         try {
             completeRestoreEntityData(entity, entityData);
         } catch (Exception exception) {
@@ -136,7 +109,7 @@ public class NMSUtils {
         }
     }
 
-    private static void completeRestoreEntityData(Entity entity, byte[] entityData) throws IOException {
+    private void completeRestoreEntityData(Entity entity, byte[] entityData) throws IOException {
         net.minecraft.server.v1_16_R2.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = deserialize(entityData);
         nmsEntity.load(nbt);
