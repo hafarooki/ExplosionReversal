@@ -14,7 +14,11 @@ distance_delay_cap: 6
 # Setting this higher will result in lag spikes
 placement_intensity: 5
 
-# Blocks blown up by these entities will not be affected by this plugin
+# Explosions in these worlds will be ignored
+ignored_worlds:
+# - factions_world
+
+# Explosions by these entities will not be affected by this plugin
 ignored_entity_explosions:
 # - PRIMED_TNT
 

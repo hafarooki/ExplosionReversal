@@ -5,7 +5,7 @@ import org.bukkit.entity.Entity;
 
 import javax.annotation.Nullable;
 
-public interface NMS {
+public interface NMSWrapper {
     @Nullable
     byte[] getTileEntity(Block block);
 

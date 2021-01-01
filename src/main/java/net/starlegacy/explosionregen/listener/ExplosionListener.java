@@ -37,15 +37,19 @@ public class ExplosionListener implements Listener {
             return;
         }
 
-        processBlockList(event.getEntity().getWorld(), event.getLocation(), event.blockList());
+        processExplosion(event.getEntity().getWorld(), event.getLocation(), event.blockList());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     void onBlockExplode(BlockExplodeEvent event) {
-        processBlockList(event.getBlock().getWorld(), event.getBlock().getLocation(), event.blockList());
+        processExplosion(event.getBlock().getWorld(), event.getBlock().getLocation(), event.blockList());
     }
 
-    private void processBlockList(World world, Location explosionLocation, List<Block> list) {
+    private void processExplosion(World world, Location explosionLocation, List<Block> list) {
+        if (plugin.getSettings().getIgnoredWorlds().contains(world.getName())) {
+            return;
+        }
+
         if (list.isEmpty()) {
             return;
         }

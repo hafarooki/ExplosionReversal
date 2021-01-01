@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -28,6 +29,10 @@ public class Settings {
      * Maximum time in milliseconds that should be spent per tick regenerating exploded blocks
      */
     private final double placementIntensity;
+    /**
+     * Worlds to ignore explosions in
+     */
+    private final Set<String> ignoredWorlds;
     /**
      * Entities to ignore the explosions of
      */
@@ -54,6 +59,7 @@ public class Settings {
         distanceDelay = config.getDouble("distance_delay", 2.0);
         distanceDelayCap = config.getInt("distance_delay_cap", 6);
         placementIntensity = config.getDouble("placement_intensity", 5.0);
+        ignoredWorlds = getStringSet(config, "ignored_worlds");
         ignoredEntityExplosions = getEntityTypes(config, "ignored_entity_explosions");
         ignoredEntities = getEntityTypes(config, "ignored_entities");
         ignoredMaterials = getMaterials(config, "ignored_materials");
@@ -61,28 +67,22 @@ public class Settings {
         includedEntities = getEntityTypes(config, "included_entities");
     }
 
+    private Set<String> getStringSet(FileConfiguration config, String path) {
+        return new HashSet<>(config.getStringList(path));
+    }
+
     private Set<EntityType> getEntityTypes(FileConfiguration config, String path) {
-        return config.getStringList(path).stream()
+        return getStringSet(config, path).stream()
                 .map(this::parseEntityType)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 
     private Set<Material> getMaterials(FileConfiguration config, String path) {
-        return config.getStringList(path).stream()
+        return getStringSet(config, path).stream()
                 .map(this::parseMaterial)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
-    }
-
-    void save(FileConfiguration config) {
-        config.set("regen_delay", regenDelay);
-        config.set("regen_delay", distanceDelay);
-        config.set("placement_intensity", placementIntensity);
-        config.set("ignored_entity_explosions", ignoredEntityExplosions.stream().map(Enum::name).collect(Collectors.toList()));
-        config.set("ignored_entities", ignoredEntities.stream().map(Enum::name).collect(Collectors.toList()));
-        config.set("ignored_materials", ignoredMaterials.stream().map(Enum::name).collect(Collectors.toList()));
-        config.set("included_materials", includedMaterials.stream().map(Enum::name).collect(Collectors.toList()));
     }
 
     private EntityType parseEntityType(String string) {
@@ -124,6 +124,10 @@ public class Settings {
 
     public double getPlacementIntensity() {
         return placementIntensity;
+    }
+
+    public Set<String> getIgnoredWorlds() {
+        return ignoredWorlds;
     }
 
     public Set<EntityType> getIgnoredEntityExplosions() {

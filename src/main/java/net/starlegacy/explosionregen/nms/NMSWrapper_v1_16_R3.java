@@ -3,17 +3,17 @@ package net.starlegacy.explosionregen.nms;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import net.minecraft.server.v1_16_R2.*;
+import net.minecraft.server.v1_16_R3.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Objects;
 
-public class NMS_v1_16_R2 implements NMS {
+public class NMSWrapper_v1_16_R3 implements NMSWrapper {
     @SuppressWarnings("UnstableApiUsage")
     private byte[] serialize(NBTTagCompound nbt) throws IOException {
         ByteArrayDataOutput output = ByteStreams.newDataOutput();
@@ -80,7 +80,7 @@ public class NMS_v1_16_R2 implements NMS {
         worldServer.setTileEntity(blockPosition, tileEntity);
     }
 
-    private net.minecraft.server.v1_16_R2.Entity getNMSEntity(Entity entity) {
+    private net.minecraft.server.v1_16_R3.Entity getNMSEntity(Entity entity) {
         CraftEntity craftEntity = (CraftEntity) entity;
         return craftEntity.getHandle();
     }
@@ -96,7 +96,7 @@ public class NMS_v1_16_R2 implements NMS {
     }
 
     private byte[] completeGetEntityData(Entity entity) throws IOException {
-        net.minecraft.server.v1_16_R2.Entity nmsEntity = getNMSEntity(entity);
+        net.minecraft.server.v1_16_R3.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = nmsEntity.save(new NBTTagCompound());
         return serialize(nbt);
     }
@@ -110,7 +110,7 @@ public class NMS_v1_16_R2 implements NMS {
     }
 
     private void completeRestoreEntityData(Entity entity, byte[] entityData) throws IOException {
-        net.minecraft.server.v1_16_R2.Entity nmsEntity = getNMSEntity(entity);
+        net.minecraft.server.v1_16_R3.Entity nmsEntity = getNMSEntity(entity);
         NBTTagCompound nbt = deserialize(entityData);
         nmsEntity.load(nbt);
     }
