@@ -6,3 +6,5 @@ api-version: "1.16"
 commands:
   regen:
     permission: explosionreversal.regen
+  explosionreversalreload:
+    permission: explosionreversal.reload

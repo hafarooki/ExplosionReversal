@@ -25,7 +25,7 @@ public class ExplosionReversalPlugin extends JavaPlugin implements Listener {
         initializeWorldData();
         registerEvents();
         scheduleRegen();
-        registerCommand();
+        registerCommands();
     }
 
     private void initializeWorldData() {
@@ -44,7 +44,7 @@ public class ExplosionReversalPlugin extends JavaPlugin implements Listener {
         scheduler.runTaskTimer(this, () -> Regeneration.pulse(this), 5L, 5L);
     }
 
-    private void registerCommand() {
+    private void registerCommands() {
         Objects.requireNonNull(getCommand("regen")).setExecutor((sender, command, label, args) -> {
             long start = System.nanoTime();
             int regeneratedBlocks = Regeneration.regenerateBlocks(this, true);
@@ -58,6 +58,12 @@ public class ExplosionReversalPlugin extends JavaPlugin implements Listener {
             sender.sendMessage(ChatColor.GOLD + "Regenerated " +
                     regeneratedBlocks + " blocks and " +
                     regeneratedEntities + " entities in " + seconds + " seconds.");
+            return true;
+        });
+
+        Objects.requireNonNull(getCommand("explosionreversalreload")).setExecutor((sender, command, label, args) -> {
+            this.settings = new Settings(getConfig());
+            sender.sendMessage("Reloaded config. Please note that some changes may not take effect without restarting or reloading the server.");
             return true;
         });
     }
@@ -78,7 +84,7 @@ public class ExplosionReversalPlugin extends JavaPlugin implements Listener {
 
     private void loadConfigAndUpdateDefaults() {
         saveDefaultConfig();
-        settings = new Settings(getConfig());
+        this.settings = new Settings(getConfig());
     }
 
     public Settings getSettings() {
