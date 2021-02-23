@@ -41,6 +41,12 @@ public class EntityListener implements Listener {
 
         ExplodedEntityData explodedEntityData = getExplodedEntityData(entity);
         pendingDeathEntities.put(entity.getUniqueId(), explodedEntityData);
+
+        // items don't call entity death event
+        if (entity.getType() == EntityType.DROPPED_ITEM) {
+            onEntityExplode(entity);
+            entity.remove();
+        }
     }
 
     private ExplodedEntityData getExplodedEntityData(Entity entity) {
@@ -101,7 +107,6 @@ public class EntityListener implements Listener {
 
         switch (type) {
             case ARMOR_STAND:
-            case DROPPED_ITEM:
             case PAINTING:
                 return true;
             default:

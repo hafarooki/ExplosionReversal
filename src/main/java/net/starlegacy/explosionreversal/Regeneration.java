@@ -9,14 +9,19 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Painting;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Regeneration {
+    private static final Logger logger = Logger.getLogger(Regeneration.class.getName());
+
     public static void pulse(ExplosionReversalPlugin plugin) {
         regenerateBlocks(plugin, false);
         regenerateEntities(plugin, false);
@@ -77,7 +82,7 @@ public class Regeneration {
                 if (!instant && System.currentTimeMillis() - data.getExplodedTime() < millisecondDelay) {
                     continue;
                 }
-                regenerateEntity(plugin, world, data);
+                regenerateEntity(world, data);
                 iterator.remove();
                 regenerated++;
             }
@@ -86,20 +91,17 @@ public class Regeneration {
         return regenerated;
     }
 
-    private static void regenerateEntity(ExplosionReversalPlugin plugin, World world, ExplodedEntityData data) {
+    private static void regenerateEntity(World world, ExplodedEntityData data) {
         Location location = new Location(world, data.getX(), data.getY(), data.getZ(), data.getPitch(), data.getYaw());
 
+        EntityType entityType = data.getEntityType();
+
         Entity entity;
-
         try {
-            entity = world.spawnEntity(location, data.getEntityType());
+            entity = world.spawnEntity(location, entityType);
         } catch (IllegalArgumentException exception) {
-            if (!exception.getMessage().contains("Cannot spawn hanging entity")) {
-                throw exception;
-            }
-
-            plugin.getLogger().severe("Failed to regenerate " + data.getEntityType()
-                    + " at " + data.getX() + ", " + data.getY() + ", " + data.getZ());
+            logger.log(Level.SEVERE, "Failed to regenerate " + entityType
+                    + " at " + data.getX() + ", " + data.getY() + ", " + data.getZ(), exception);
             return;
         }
 

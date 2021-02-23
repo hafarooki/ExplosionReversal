@@ -25,7 +25,6 @@ ignored_entity_explosions:
 # Entities of these types will not be regenerated, even though they are normally
 # These include:
 # - ARMOR_STAND
-# - DROPPED_ITEM
 # - PAINTING
 # For a complete list of entity types, see https://papermc.io/javadocs/paper/1.16/org/bukkit/entity/EntityType.html
 ignored_entities:
@@ -33,6 +32,7 @@ ignored_entities:
 
 # Additional entities to regenerate when blown up
 # For a complete list of entity types, see https://papermc.io/javadocs/paper/1.16/org/bukkit/entity/EntityType.html
+# NOTE: Regenerating dropped items only works on Paper at the moment
 included_entities:
 # - SHEEP
 
