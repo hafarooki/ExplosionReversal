@@ -1,7 +1,7 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionreversal;
 
-import net.starlegacy.explosionregen.listener.EntityListener;
-import net.starlegacy.explosionregen.listener.ExplosionListener;
+import net.starlegacy.explosionreversal.listener.EntityListener;
+import net.starlegacy.explosionreversal.listener.ExplosionListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-public class ExplosionRegenPlugin extends JavaPlugin implements Listener {
+public class ExplosionReversalPlugin extends JavaPlugin implements Listener {
     private Settings settings;
     private WorldData worldData;
 

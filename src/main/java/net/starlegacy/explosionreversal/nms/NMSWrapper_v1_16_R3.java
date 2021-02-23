@@ -1,4 +1,4 @@
-package net.starlegacy.explosionregen.nms;
+package net.starlegacy.explosionreversal.nms;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;

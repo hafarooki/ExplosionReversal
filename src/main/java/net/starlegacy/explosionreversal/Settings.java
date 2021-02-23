@@ -1,4 +1,4 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionreversal;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

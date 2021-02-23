@@ -1,4 +1,4 @@
-# Updated config: https://github.com/MicleBrick/ExplosionRegen/blob/master/src/main/resources/config.yml
+# Updated config: https://github.com/MicleBrick/ExplosionReversal/blob/master/src/main/resources/config.yml
 
 # Time in minutes after exploding blocks should regenerate
 regen_delay: 1.0

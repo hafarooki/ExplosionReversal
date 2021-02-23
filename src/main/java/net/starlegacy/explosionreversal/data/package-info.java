@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionreversal.data;
 
 import javax.annotation.ParametersAreNonnullByDefault;

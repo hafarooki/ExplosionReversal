@@ -1,4 +1,4 @@
-# ExplosionRegen
+# ExplosionReversal
 A lightweight plugin for Minecraft servers which makes blocks destroyed by explosions regenerate.
 
 Download: [Spigot Page](https://www.spigotmc.org/resources/explosionregen.60308/)
@@ -8,7 +8,8 @@ To install it, download the latest release and put it in your plugins folder, th
 Use the config.yml file to edit the settings.
 
 # Commands
-The only command is "/regen" to regenerate all pending blocks, requires the explosionregen.regen permission.
+The only command is "/regen" to regenerate all pending blocks.
+It requires the `explosionreversal.regen` permission.
 
 # Contributing
 Fork the project.
@@ -19,8 +20,8 @@ $ git clone https://github.com/PaperMC/Paper
 $ cd Paper
 $ ./paper jar
 $ cd ../
-$ git clone https://github.com/<YOURNAME>/ExplosionRegen
-$ cd ExplosionRegen
+$ git clone https://github.com/<YOURNAME>/ExplosionReversal
+$ cd ExplosionReversal
 $ ./gradlew build
 ```
 Import the Gradle project. Using IntelliJ IDEA, create new projects from sources, navigate to the build.gradle, use the setup wizard.
@@ -28,7 +29,7 @@ Import the Gradle project. Using IntelliJ IDEA, create new projects from sources
 <br/><br/><br/>
 ![Image](https://www.yourkit.com/images/yklogo.png)
 
-ExplosionRegen uses Yourkit's fabulous profiler to enhance its performance.
+ExplosionReversal uses Yourkit's profiler to enhance its performance.
 
 YourKit supports open source projects with its full-featured Java Profiler.
 YourKit, LLC is the creator of [YourKit .NET Profiler](https://www.yourkit.com/java/profiler/),

@@ -1,4 +1,4 @@
-package net.starlegacy.explosionregen.nms;
+package net.starlegacy.explosionreversal.nms;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class NMSUtils {
     private static NMSWrapper nmsWrapper;
-    private static Logger logger = Logger.getLogger(NMSUtils.class.getName());
+    private static final Logger logger = Logger.getLogger(NMSUtils.class.getName());
 
     static {
         Map<String, Callable<NMSWrapper>> versionMap = new HashMap<>();

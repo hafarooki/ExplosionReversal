@@ -1,10 +1,10 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionreversal;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import net.starlegacy.explosionregen.data.ExplodedBlockData;
-import net.starlegacy.explosionregen.data.ExplodedEntityData;
+import net.starlegacy.explosionreversal.data.ExplodedBlockData;
+import net.starlegacy.explosionreversal.data.ExplodedEntityData;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;

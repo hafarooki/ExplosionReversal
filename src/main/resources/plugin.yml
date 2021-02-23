@@ -1,8 +1,8 @@
-name: ExplosionRegen
-version: 4.0.2
-main: net.starlegacy.explosionregen.ExplosionRegenPlugin
+name: ExplosionReversal
+version: 4.0.1
+main: net.starlegacy.explosionreversal.ExplosionReversalPlugin
 authors: ["MicleBrick", "SijmenSchoon", "rsammelson"]
 api-version: "1.16"
 commands:
   regen:
-    permission: explosionregen.regen
+    permission: explosionreversal.regen

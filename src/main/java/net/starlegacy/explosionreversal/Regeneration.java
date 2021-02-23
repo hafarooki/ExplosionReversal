@@ -1,8 +1,8 @@
-package net.starlegacy.explosionregen;
+package net.starlegacy.explosionreversal;
 
-import net.starlegacy.explosionregen.data.ExplodedBlockData;
-import net.starlegacy.explosionregen.data.ExplodedEntityData;
-import net.starlegacy.explosionregen.nms.NMSUtils;
+import net.starlegacy.explosionreversal.data.ExplodedBlockData;
+import net.starlegacy.explosionreversal.data.ExplodedEntityData;
+import net.starlegacy.explosionreversal.nms.NMSUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -17,12 +17,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Regeneration {
-    public static void pulse(ExplosionRegenPlugin plugin) {
+    public static void pulse(ExplosionReversalPlugin plugin) {
         regenerateBlocks(plugin, false);
         regenerateEntities(plugin, false);
     }
 
-    public static int regenerateBlocks(ExplosionRegenPlugin plugin, boolean instant) {
+    public static int regenerateBlocks(ExplosionReversalPlugin plugin, boolean instant) {
         long millisecondDelay = (long) (plugin.getSettings().getRegenDelay() * 60L * 1_000L);
         long maxNanos = (long) (plugin.getSettings().getPlacementIntensity() * 1_000_000L);
 
@@ -66,7 +66,7 @@ public class Regeneration {
         }
     }
 
-    public static int regenerateEntities(ExplosionRegenPlugin plugin, boolean instant) {
+    public static int regenerateEntities(ExplosionReversalPlugin plugin, boolean instant) {
         long millisecondDelay = (long) (plugin.getSettings().getRegenDelay() * 60L * 1_000L);
         int regenerated = 0;
 
@@ -86,7 +86,7 @@ public class Regeneration {
         return regenerated;
     }
 
-    private static void regenerateEntity(ExplosionRegenPlugin plugin, World world, ExplodedEntityData data) {
+    private static void regenerateEntity(ExplosionReversalPlugin plugin, World world, ExplodedEntityData data) {
         Location location = new Location(world, data.getX(), data.getY(), data.getZ(), data.getPitch(), data.getYaw());
 
         Entity entity;

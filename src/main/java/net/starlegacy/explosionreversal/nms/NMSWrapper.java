@@ -1,4 +1,4 @@
-package net.starlegacy.explosionregen.nms;
+package net.starlegacy.explosionreversal.nms;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;

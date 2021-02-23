@@ -1,9 +1,9 @@
-package net.starlegacy.explosionregen.listener;
+package net.starlegacy.explosionreversal.listener;
 
-import net.starlegacy.explosionregen.ExplosionRegenPlugin;
-import net.starlegacy.explosionregen.Settings;
-import net.starlegacy.explosionregen.data.ExplodedBlockData;
-import net.starlegacy.explosionregen.nms.NMSUtils;
+import net.starlegacy.explosionreversal.ExplosionReversalPlugin;
+import net.starlegacy.explosionreversal.Settings;
+import net.starlegacy.explosionreversal.data.ExplodedBlockData;
+import net.starlegacy.explosionreversal.nms.NMSUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -25,9 +25,9 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class ExplosionListener implements Listener {
-    private final ExplosionRegenPlugin plugin;
+    private final ExplosionReversalPlugin plugin;
 
-    public ExplosionListener(ExplosionRegenPlugin plugin) {
+    public ExplosionListener(ExplosionReversalPlugin plugin) {
         this.plugin = plugin;
     }
 

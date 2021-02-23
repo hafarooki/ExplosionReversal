@@ -1,6 +1,6 @@
-package net.starlegacy.explosionregen.data;
+package net.starlegacy.explosionreversal.data;
 
-import net.starlegacy.explosionregen.nms.NMSUtils;
+import net.starlegacy.explosionreversal.nms.NMSUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 

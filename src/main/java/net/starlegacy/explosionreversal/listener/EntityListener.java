@@ -1,7 +1,7 @@
-package net.starlegacy.explosionregen.listener;
+package net.starlegacy.explosionreversal.listener;
 
-import net.starlegacy.explosionregen.ExplosionRegenPlugin;
-import net.starlegacy.explosionregen.data.ExplodedEntityData;
+import net.starlegacy.explosionreversal.ExplosionReversalPlugin;
+import net.starlegacy.explosionreversal.data.ExplodedEntityData;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -17,9 +17,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class EntityListener implements Listener {
-    private final ExplosionRegenPlugin plugin;
+    private final ExplosionReversalPlugin plugin;
 
-    public EntityListener(ExplosionRegenPlugin plugin) {
+    public EntityListener(ExplosionReversalPlugin plugin) {
         this.plugin = plugin;
     }
 

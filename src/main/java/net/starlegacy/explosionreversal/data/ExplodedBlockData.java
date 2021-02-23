@@ -1,17 +1,17 @@
-package net.starlegacy.explosionregen.data;
+package net.starlegacy.explosionreversal.data;
 
 import org.bukkit.block.data.BlockData;
 
 import javax.annotation.Nullable;
 
 public class ExplodedBlockData {
-    private int x;
-    private int y;
-    private int z;
-    private long explodedTime; // the time to start the regenerate timer, NOT necessarily the time that it exploded
-    private BlockData blockData;
+    private final int x;
+    private final int y;
+    private final int z;
+    private final long explodedTime; // the time to start the regenerate timer, NOT necessarily the time that it exploded
+    private final BlockData blockData;
     @Nullable
-    private byte[] tileData;
+    private final byte[] tileData;
 
     public ExplodedBlockData(int x, int y, int z, long explodedTime, BlockData blockData, @Nullable byte[] tileData) {
         this.x = x;
