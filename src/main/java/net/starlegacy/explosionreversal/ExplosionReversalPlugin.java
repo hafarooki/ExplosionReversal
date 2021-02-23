@@ -62,7 +62,8 @@ public class ExplosionReversalPlugin extends JavaPlugin implements Listener {
         });
 
         Objects.requireNonNull(getCommand("explosionreversalreload")).setExecutor((sender, command, label, args) -> {
-            this.settings = new Settings(getConfig());
+            this.reloadConfig();
+            this.settings = new Settings(this.getConfig());
             sender.sendMessage("Reloaded config. Please note that some changes may not take effect without restarting or reloading the server.");
             return true;
         });
