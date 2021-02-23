@@ -30,34 +30,46 @@ public class EntityListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDemise(EntityDamageEvent event) {
         Entity entity = event.getEntity();
-        if (isRegeneratedEntity(entity) && isCausedByExplosion(event)) {
-            ExplodedEntityData explodedEntityData = getExplodedEntityData(entity);
-            pendingDeathEntities.put(entity.getUniqueId(), explodedEntityData);
+
+        if (!isRegeneratedEntity(entity)) {
+            return;
         }
+
+        if (!isCausedByExplosion(event)) {
+            return;
+        }
+
+        ExplodedEntityData explodedEntityData = getExplodedEntityData(entity);
+        pendingDeathEntities.put(entity.getUniqueId(), explodedEntityData);
     }
 
     private ExplodedEntityData getExplodedEntityData(Entity entity) {
         double cap = plugin.getSettings().getDistanceDelayCap();
         double delay = plugin.getSettings().getDistanceDelay();
         long time = System.currentTimeMillis() + Math.round(cap * delay * 1000L);
+
         return new ExplodedEntityData(entity, time);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onItemDeath(ItemDespawnEvent event) {
         Item entity = event.getEntity();
+
         if (!isRegeneratedEntity(entity) || !isCausedByExplosion(entity.getLastDamageCause())) {
             return;
         }
+
         onEntityExplode(entity);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEntityDeath(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
+
         if (!isRegeneratedEntity(entity) || !isCausedByExplosion(entity.getLastDamageCause())) {
             return;
         }
+
         onEntityExplode(entity);
         event.getDrops().clear();
     }
@@ -65,30 +77,36 @@ public class EntityListener implements Listener {
     private void onEntityExplode(Entity entity) {
         UUID id = entity.getUniqueId();
         ExplodedEntityData explodedEntityData;
+
         if (pendingDeathEntities.containsKey(id)) {
             explodedEntityData = pendingDeathEntities.remove(id);
         } else {
             explodedEntityData = getExplodedEntityData(entity);
         }
+
         World world = entity.getWorld();
         plugin.getWorldData().addEntity(world, explodedEntityData);
     }
 
     private boolean isRegeneratedEntity(Entity entity) {
         EntityType type = entity.getType();
+
         if (plugin.getSettings().getIgnoredEntities().contains(type)) {
             return false;
-        } else if (plugin.getSettings().getIncludedEntities().contains(type)) {
+        }
+
+        if (plugin.getSettings().getIncludedEntities().contains(type)) {
             return true;
-        } else {
-            switch (type) {
-                case ARMOR_STAND:
-                case DROPPED_ITEM:
-                case PAINTING:
-                    return true;
-                default:
-                    return false;
-            }
+        }
+
+
+        switch (type) {
+            case ARMOR_STAND:
+            case DROPPED_ITEM:
+            case PAINTING:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -96,6 +114,7 @@ public class EntityListener implements Listener {
         if (event == null) {
             return false;
         }
+
         switch (event.getCause()) {
             case BLOCK_EXPLOSION:
             case ENTITY_EXPLOSION:
@@ -119,9 +138,9 @@ public class EntityListener implements Listener {
 
         event.setCancelled(true);
 
-        World world = entity.getWorld();
         ExplodedEntityData explodedEntityData = getExplodedEntityData(entity);
-        plugin.getWorldData().addEntity(world, explodedEntityData);
+
+        plugin.getWorldData().addEntity(entity.getWorld(), explodedEntityData);
 
         entity.remove();
     }

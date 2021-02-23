@@ -37,12 +37,18 @@ public class ExplosionListener implements Listener {
             return;
         }
 
-        processExplosion(event.getEntity().getWorld(), event.getLocation(), event.blockList());
+        World world = event.getEntity().getWorld();
+        Location location = event.getLocation();
+        List<Block> blockList = event.blockList();
+        processExplosion(world, location, blockList);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     void onBlockExplode(BlockExplodeEvent event) {
-        processExplosion(event.getBlock().getWorld(), event.getBlock().getLocation(), event.blockList());
+        World world = event.getBlock().getWorld();
+        Location location = event.getBlock().getLocation();
+        List<Block> blockList = event.blockList();
+        processExplosion(world, location, blockList);
     }
 
     private void processExplosion(World world, Location explosionLocation, List<Block> list) {
@@ -99,6 +105,7 @@ public class ExplosionListener implements Listener {
     private boolean ignoreMaterial(Material material) {
         Settings settings = plugin.getSettings();
         Set<Material> includedMaterials = settings.getIncludedMaterials();
+
         return material == Material.AIR ||
                 settings.getIgnoredMaterials().contains(material) ||
                 !includedMaterials.isEmpty() && !includedMaterials.contains(material);
