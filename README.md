@@ -8,8 +8,10 @@ To install it, download the latest release and put it in your plugins folder, th
 Use the config.yml file to edit the settings.
 
 # Commands
-The only command is "/regen" to regenerate all pending blocks.
-It requires the `explosionreversal.regen` permission.
+
+1. `/regen` regenerates all pending blocks. It requires the `explosionreversal.regen` permission.
+
+2. `/explosionreversalreload` reloads the config. It requires the `explosionreversal.reload` permission.
 
 # Contributing
 Fork the project.
