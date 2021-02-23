@@ -99,7 +99,6 @@ public class EntityListener implements Listener {
             return true;
         }
 
-
         switch (type) {
             case ARMOR_STAND:
             case DROPPED_ITEM:
